@@ -1,30 +1,30 @@
 from django.db import models
 
 class Movie(models.Model):
-    title = models.CharField(max_length=200)
-    year = models.CharField(max_length=200)
-    rated = models.CharField(max_length=200)
-    released = models.CharField(max_length=200)
-    runtime = models.CharField(max_length=200)
-    genre = models.CharField(max_length=200)
-    director = models.CharField(max_length=200)
-    writer = models.CharField(max_length=200)
-    actors = models.CharField(max_length=200)
-    plot = models.CharField(max_length=500)
-    language = models.CharField(max_length=200)
-    awards = models.CharField(max_length=200)
-    poster = models.CharField(max_length=200)
-    metascore = models.CharField(max_length=200)
-    imdbrating = models.CharField(max_length=200)
-    imdbvotes = models.CharField(max_length=200)
-    imdbid = models.CharField(max_length=200)
-    type = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, default='N/A')
+    year = models.CharField(max_length=200, default='N/A')
+    rated = models.CharField(max_length=200, default='N/A')
+    released = models.CharField(max_length=200, default='N/A')
+    runtime = models.CharField(max_length=200, default='N/A')
+    genre = models.CharField(max_length=200, default='N/A')
+    director = models.CharField(max_length=200, default='N/A')
+    writer = models.CharField(max_length=200, default='N/A')
+    actors = models.CharField(max_length=200, default='N/A')
+    plot = models.CharField(max_length=500, default='N/A')
+    language = models.CharField(max_length=200, default='N/A')
+    awards = models.CharField(max_length=200, default='N/A')
+    poster = models.CharField(max_length=200, default='N/A')
+    #metascore = models.CharField(max_length=200, default='N/A')
+    imdbrating = models.CharField(max_length=200, default='N/A')
+    imdbvotes = models.CharField(max_length=200, default='N/A')
+    imdbid = models.CharField(max_length=200, default='N/A')
+    type = models.CharField(max_length=200, default='N/A')
 
 class Loc(models.Model):
-    city = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
-    longitude = models.CharField(max_length=200)
-    latitude = models.CharField(max_length=200)
+    city = models.CharField(max_length=200, default='N/A')
+    country = models.CharField(max_length=200, default='N/A')
+    longitude = models.CharField(max_length=200, default='N/A')
+    latitude = models.CharField(max_length=200, default='N/A')
 
 class MovieLocR(models.Model):
     loc_id = models.ForeignKey(Movie, related_name='loc_id', on_delete=models.CASCADE)
@@ -36,12 +36,12 @@ class RecomR(models.Model):
 
 class TVPlay(models.Model):
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    season = models.CharField(max_length=200)
-    episode = models.CharField(max_length=200)
-    seriesid = models.CharField(max_length=200)
+    season = models.CharField(max_length=200, default='N/A')
+    episode = models.CharField(max_length=200, default='N/A')
+    seriesid = models.CharField(max_length=200, default='N/A')
 
 class TVSeries(models.Model):
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    totalseasons = models.CharField(max_length=200)
+    totalseasons = models.CharField(max_length=200, default='N/A')
     ##
 # Create your models here.

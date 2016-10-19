@@ -1,23 +1,25 @@
 # -*- coding: utf-8 -*-
 
 import json
-import urllib2
+import urllib.request
 
 from django.http import HttpResponse
 
 from moviefun.models import *
 
+start = 1000000 
+end = 3000000
+
 def insert(request):
 
-        for i in range(3603346, 3603456):
+        for i in range(start, end):
 
-                req = urllib2.Request('http://www.omdbapi.com/?i=tt' + str(i)+'&plot=short&r=json')
-                response = urllib2.urlopen(req)
-                the_page = response.read()
-
+                req = urllib.request.Request('http://www.omdbapi.com/?i=tt' + str(i)+'&plot=short&r=json')
+                response = urllib.request.urlopen(req)
+                the_page = response.readall().decode('utf-8')
                 parsed_json = json.loads(the_page)
-                # print(parsed_json)
-                if parsed_json['Response'] == 'True':
+                #print(parsed_json)
+                if parsed_json['Response'] == 'True' and parsed_json['Poster'] != 'N/A' and parsed_json['imdbRating'] != 'N/A' and parsed_json['Country'] != 'N/A':
                         t1 = Movie(title = parsed_json['Title'],
                                 year = parsed_json['Year'],
                                 rated = parsed_json['Rated'],
@@ -31,14 +33,14 @@ def insert(request):
                                 language = parsed_json['Language'],
                                 awards = parsed_json['Awards'],
                                 poster = parsed_json['Poster'],
-                                metascore = parsed_json['Metascore'],
+                                #metascore = parsed_json['Metascore'],
                                 imdbrating = parsed_json['imdbRating'],
                                 imdbvotes = parsed_json['imdbVotes'],
                                 imdbid = parsed_json['imdbID'],
                                 type = parsed_json['Type'])
                         t1.save()
 
-                        if parsed_json['Type'] == 'episode':
+                        if parsed_json['Type'] == 'episode' and parsed_json['Episode'] != 'N/A' and parsed_json['Season'] != 'N/A' and parsed_json['seriesID'] != 'N/A':
                                 t2 = TVPlay(movie_id = t1,
                                         season = parsed_json['Season'],
                                         episode = parsed_json['Episode'],
