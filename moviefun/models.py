@@ -43,4 +43,5 @@ class TVPlay(models.Model):
 class TVSeries(models.Model):
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
     totalseasons = models.CharField(max_length=200)
+    ##
 # Create your models here.
