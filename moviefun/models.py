@@ -20,7 +20,7 @@ class Loc(models.Model):
     longitude = models.CharField(max_length=200)
     latitude = models.CharField(max_length=200)
 
-class MovieLocR(models.Model):
+class MovieLocR(models.Model): 
     loc_id = models.ForeignKey(Movie, related_name='loc_id', on_delete=models.CASCADE)
     movie_id = models.ForeignKey(Movie, related_name='movie_id', on_delete=models.CASCADE)
 
