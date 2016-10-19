@@ -41,3 +41,5 @@ Thumbs.db
 ######################
 *.pyc
 
+#Intellij Idea/pycharm
+.idea*
