@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'moviesite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'movie',
+        'NAME': 'site',
         'USER': 'root',
         'PASSWORD': 'uiucpass',
         'HOST': 'localhost',

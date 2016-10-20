@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from moviefun.models import *
 
 start = 1000000 
-end = 3000000
+end = 1000500
 
 def insert(request):
 
@@ -20,7 +20,8 @@ def insert(request):
                 parsed_json = json.loads(the_page)
                 #print(parsed_json)
                 if parsed_json['Response'] == 'True' and parsed_json['Poster'] != 'N/A' and parsed_json['imdbRating'] != 'N/A' and parsed_json['Country'] != 'N/A':
-                        t1 = Movie(title = parsed_json['Title'],
+                        t1 = Movie(imdbid = parsed_json['imdbID'],
+                                title = parsed_json['Title'],
                                 year = parsed_json['Year'],
                                 rated = parsed_json['Rated'],
                                 released = parsed_json['Released'],
@@ -36,12 +37,11 @@ def insert(request):
                                 #metascore = parsed_json['Metascore'],
                                 imdbrating = parsed_json['imdbRating'],
                                 imdbvotes = parsed_json['imdbVotes'],
-                                imdbid = parsed_json['imdbID'],
                                 type = parsed_json['Type'])
                         t1.save()
 
                         if parsed_json['Type'] == 'episode' and parsed_json['Episode'] != 'N/A' and parsed_json['Season'] != 'N/A' and parsed_json['seriesID'] != 'N/A':
-                                t2 = TVPlay(movie_id = t1,
+                                t2 = TVPlay(imdbid = t1,
                                         season = parsed_json['Season'],
                                         episode = parsed_json['Episode'],
                                         seriesid = parsed_json['seriesID'])
@@ -49,7 +49,7 @@ def insert(request):
                                 t2.save()
 
                         if parsed_json['Type'] == 'series':
-                                t3 = TVSeries(movie_id = t1,
+                                t3 = TVSeries(seriesid = t1,
                                         totalseasons = parsed_json['totalSeasons'])
                                 t3.save()
 
