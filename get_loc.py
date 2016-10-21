@@ -2,7 +2,7 @@ from imdb import IMDb
 
 def getLocation(id):
         imdb_tool = IMDb()
-        location= imdb_tool.get_movie_locations(id))
+        location= imdb_tool.get_movie_locations(id)
         loc = location['data']
         
         if not loc:
