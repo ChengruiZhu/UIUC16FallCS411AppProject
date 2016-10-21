@@ -21,14 +21,14 @@ class Movie(models.Model):
     type = models.CharField(max_length=200, default='N/A')
 
 class Loc(models.Model):
-    city = models.CharField(max_length=200, default='N/A')
-    country = models.CharField(max_length=200, default='N/A')
+    address = models.CharField(max_length=200, default='N/A')
+    #country = models.CharField(max_length=200, default='N/A')
     longitude = models.CharField(max_length=200, default='N/A')
     latitude = models.CharField(max_length=200, default='N/A')
 
 class MovieLocR(models.Model):
     loc_id = models.ForeignKey(Movie, related_name='loc_id', on_delete=models.CASCADE)
-    movie_id = models.ForeignKey(Movie, related_name='movie_id', on_delete=models.CASCADE)
+    imdbid = models.OneToOne(Movie, on_delete=models.CASCADE, primary_key=True)
 
 class RecomR(models.Model):
     movie1_id = models.ForeignKey(Movie, related_name='movie1_id', on_delete=models.CASCADE)
