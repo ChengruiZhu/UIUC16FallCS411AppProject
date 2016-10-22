@@ -19,7 +19,7 @@ def geoCoding(addr, API_KEY):
 		return 888, 888
 	elif parsed_json['status'] == 'ZERO_RESULTS':
 		print('Google API Address Invilid!')
-		return 222, 222
+		return 666, 666
 	else:
-		print ('Google API response: ' + parsed_json[status])
+		print ('Google API response: ' + parsed_json['status'])
 		return 555, 555
