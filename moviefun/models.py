@@ -15,19 +15,17 @@ class Movie(models.Model):
     language = models.CharField(max_length=200, default='N/A')
     awards = models.CharField(max_length=200, default='N/A')
     poster = models.CharField(max_length=200, default='N/A')
-    #metascore = models.CharField(max_length=200, default='N/A')
     imdbrating = models.CharField(max_length=200, default='N/A')
     imdbvotes = models.CharField(max_length=200, default='N/A')
     type = models.CharField(max_length=200, default='N/A')
 
 class Loc(models.Model):
-    address = models.CharField(max_length=200, default='N/A')
-    #country = models.CharField(max_length=200, default='N/A')
+    address = models.CharField(primary_key=True, max_length=200)
     longitude = models.CharField(max_length=200, default='N/A')
     latitude = models.CharField(max_length=200, default='N/A')
 
 class MovieLocR(models.Model):
-    loc_id = models.ForeignKey(Movie, related_name='loc_id', on_delete=models.CASCADE)
+    address = models.ForeignKey(Loc, on_delete=models.CASCADE)
     imdbid = models.OneToOne(Movie, on_delete=models.CASCADE, primary_key=True)
 
 class RecomR(models.Model):
