@@ -6,7 +6,7 @@ import urllib.request
 from django.http import HttpResponse
 
 from moviefun.models import *
-
+#from get_loc import getLocation
 start = 1000000 
 end = 1000500
 
@@ -34,7 +34,6 @@ def insert(request):
                                 language = parsed_json['Language'],
                                 awards = parsed_json['Awards'],
                                 poster = parsed_json['Poster'],
-                                #metascore = parsed_json['Metascore'],
                                 imdbrating = parsed_json['imdbRating'],
                                 imdbvotes = parsed_json['imdbVotes'],
                                 type = parsed_json['Type'])
@@ -52,6 +51,12 @@ def insert(request):
                                 t3 = TVSeries(seriesid = t1,
                                         totalseasons = parsed_json['totalSeasons'])
                                 t3.save()
-
+                        
+                        #t4 = Loc(address = getLocation(parsed_json['imdbID']))
+                        #t4.save()
+                        
+                        #t5 = MovieLocR(imdbid = t1,
+                        #         address = t3)
+                        #t5.save()
                              # print(parsed_json)
         return HttpResponse("<p>数据添加成功！</p>")

@@ -25,8 +25,8 @@ class Loc(models.Model):
     latitude = models.CharField(max_length=200, default='N/A')
 
 class MovieLocR(models.Model):
+    imdbid = models.OneToOneField(Movie, on_delete=models.CASCADE, primary_key=True)
     address = models.ForeignKey(Loc, on_delete=models.CASCADE)
-    imdbid = models.OneToOne(Movie, on_delete=models.CASCADE, primary_key=True)
 
 class RecomR(models.Model):
     movie1_id = models.ForeignKey(Movie, related_name='movie1_id', on_delete=models.CASCADE)
