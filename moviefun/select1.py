@@ -5,12 +5,12 @@ import time
 from moviefun.models import *
 def select(request):
         t0=time.clock()
-        s=Movie.objects.filter(year='2007',type='episode')
+        s=Movie.objects.filter(year='2007–', type='series')
         response=''
         n=0
         for var in s:
-                r=TVPlay.objects.get(imdbid=var.imdbid)
-                if r.season=='3':
+                r=TVSeries.objects.get(seriesid=var.imdbid)
+                if r.totalseasons=='7':
                         n=n+1
                         response += str(n) + '.' + var.title + ' '
         t0=time.clock()-t0

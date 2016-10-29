@@ -8,7 +8,7 @@ from moviefun.models import *
 def update(request):
 	# 修改其中一个id=1的name字段，再save，相当于SQL中的UPDATE
 	t0=time.clock()
-	test1 = Movie.objects.get(imdbid='tt0000001')
+	test1 = Movie.objects.get(imdbid='tt0000000')
 	test1.title = 'UIUC16FallCS411AppProject'
 	test1.save()
 	

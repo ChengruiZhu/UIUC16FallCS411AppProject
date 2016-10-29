@@ -7,14 +7,17 @@ from django.http import HttpResponse
 
 from moviefun.models import *
 #from get_loc import getLocation
-start = 1000000 
-end = 1000500
+start = 1124309 
+end = 9999999
 
-def insert(request):
+def insert_all(request):
 
         for i in range(start, end):
-
-                req = urllib.request.Request('http://www.omdbapi.com/?i=tt' + str(i)+'&plot=short&r=json')
+                #print(i)
+                s=str(i)
+                while (len(s)<7):
+                        s='0'+s
+                req = urllib.request.Request('http://www.omdbapi.com/?i=tt' + s +'&plot=short&r=json')
                 response = urllib.request.urlopen(req)
                 the_page = response.readall().decode('utf-8')
                 parsed_json = json.loads(the_page)

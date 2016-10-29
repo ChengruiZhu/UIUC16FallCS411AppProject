@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from moviefun.models import *
 def insert(request):
 	t0=time.clock()	
-	t1 = Movie(imdbid = 'tt0000001',
+	t1 = Movie(imdbid = 'tt0000000',
 		title = 'insert_test',
 		year = '2016',
 		rated = '18+',
