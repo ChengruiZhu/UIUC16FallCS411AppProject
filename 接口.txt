@@ -5,7 +5,17 @@ def pinPoint(string:city/country):
   就是经纬度作为json file里的第一个pair, following pairs 就是普通的movie+meta data.
   
   
+  
+  
 def getMovies([long, long] 经纬度):
   return {movies with meta data in json format}
   
 这个是return单纯的movie+meta data, json format
+
+
+
+
+def getRecommendation(string targetMovieName):
+  return {recommended movies with meta data in json format}
+  
+  这个format和上面一样都是json
