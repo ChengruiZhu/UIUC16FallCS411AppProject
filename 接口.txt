@@ -7,7 +7,7 @@ def pinPoint(string:city/country):
   
   
   
-def getMovies([long, long] 经纬度):
+def getMovies([long, long] 经纬度, [int, int] date_range, string genre, [int, int] rating_range):
   return {movies with meta data in json format}
   
 这个是return单纯的movie+meta data, json format
