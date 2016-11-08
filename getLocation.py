@@ -19,7 +19,7 @@ def geoCoding(addr, API_KEY):
 		print ('Google API Over Quota!')
 		return 888, 888
 	elif parsed_json['status'] == 'ZERO_RESULTS':
-		print('Google API Address Invilid!')
+		print('Google API Address Invilid : ' + addr)
 		return 666, 666
 	else:
 		print ('Google API response: ' + parsed_json['status'])
@@ -35,24 +35,40 @@ def main():
            'AIzaSyDgeVRx7kyJTN0T26r4PqEocBB6oKiqjZM',]
 
     inputFile = open("./data/address")
-    outputFile = open("./data/geolocation", 'w')
+    outputFile = open("./data/geolocation", 'a')
     line = inputFile.readline()
     i = 0
+    cnt = 0
+
+
+    while line.split('|')[0] <= '0056201':
+        line = inputFile.readline()
+    print('Starting...')
+
     while len(line) != 0:
         imdbNum = line.split('|')[0]
         address = line.split('|')[1]
-        lat, lng = geoCoding(address,)
+        if 'locations' not in address:
+            lat, lng = geoCoding(address, key[i])
+        else:
+            lat = 555
         if lat != 888 and lat != 666 and lat != 555:
-            outputFile.write(imdbNum+'|' + lat + ',' + lng + '\n')
-            line = inputFile.readline()
+            outputFile.write(imdbNum+'|' + str(lat) + ',' + str(lng) + '\n')
+            cnt += 1
+            print(cnt)
         elif lat == 888:
-            if ++i < 4:
-                print(key[--i]+' used up')
-                print('new key is: ' + [i])
+            if i < 3:
+                i += 1
+                print('new key is: ' + key[i])
             else:
                 print('Key used up!')
                 print('imdbNum = ' + imdbNum)
+                inputFile.close()
+                outputFile.close()
                 return
-        print(float(imdbNum)/94833.0)
+        line = inputFile.readline()
+
+    inputFile.close()
+    outputFile.close()
 
 main()
