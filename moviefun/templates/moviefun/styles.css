@@ -1,0 +1,24 @@
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+.w3-sidenav a,.w3-sidenav h4 {padding: 12px;}
+.w3-top{
+    height:50px;
+    background-color:black;
+    color:white;
+}
+.w3-navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.dropdown{
+    padding-top: 10px;
+}
+.filterbox{
+    padding-left:10px;
+}
+.list{
+    width:100%;
+    background-color: white;
+    position:fixed;
+    bottom:0px;
+    height:200px;
+}
