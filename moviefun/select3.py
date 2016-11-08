@@ -5,11 +5,11 @@ import time
 from moviefun.models import *
 def select(request):
         t0=time.clock()
-        s=Movie.objects.filter(year='2007', type='movie')
+        s=Movie.objects.filter(year='2007')
         response=''
         n=0
         for var in s:
-                if float(var.imdbrating) > 4.5:
+                if float(var.imdbrating) > 9.5:
                         n=n+1
                         response += str(n) + '.' + var.title + ' '
         t0=time.clock()-t0
