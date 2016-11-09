@@ -1,6 +1,43 @@
 // Get the Sidenav
-var year={};
 
+function deselect(e) {
+  $('.pop').slideFadeToggle(function() {
+    e.removeClass('selected');
+  });    
+}
+
+$(function() {
+  $('#contact').on('click', function() {
+    if($(this).hasClass('selected')) {
+      deselect($(this));               
+    } else {
+      $(this).addClass('selected');
+      $('.pop').slideFadeToggle();
+    }
+    return false;
+  });
+
+  $('.close').on('click', function() {
+    deselect($('#contact'));
+    return false;
+  });
+});
+
+$.fn.slideFadeToggle = function(easing, callback) {
+  return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+};
+
+
+
+
+//--------------------------------------------------------//
+
+
+
+
+
+
+var year={};
 function initMap() {
     var myLatLng = {lat: -25.363, lng: 131.044};
 
@@ -14,6 +51,7 @@ function initMap() {
         map: map,
         title: 'Hello World!'
     });
+
     map.addListener("click", function (event) {
         var latitude = event.latLng.lat();
         var longitude = event.latLng.lng();
@@ -23,10 +61,8 @@ function initMap() {
         marker.setPosition(myLatLng);
         console.log(latitude + ', ' + longitude);
 
-
         // Center of map
-        map.panTo(new google.maps.LatLng(latitude, longitude));
-
+        //map.panTo(new google.maps.LatLng(latitude, longitude));
 
     }); //end addListener
     map.addListener("bounds_changed", function (event) {
