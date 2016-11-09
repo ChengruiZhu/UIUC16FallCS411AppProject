@@ -1,0 +1,60 @@
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+.w3-sidenav a,.w3-sidenav h4 {padding: 12px;}
+.w3-top{
+    height:50px;
+    background-color:black;
+    color:white;
+}
+.w3-navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.dropdown{
+    padding-top: 10px;
+}
+.filterbox{
+    padding-left:10px;
+}
+.list{
+    width:100%;
+    background-color: white;
+    position:fixed;
+    bottom:0px;
+    height:200px;
+}
+
+
+
+
+
+a.selected {
+  background-color:#1F75CC;
+  color:white;
+  z-index:100;
+}
+
+.messagepop {
+  background-color:#FFFFFF;
+  border:1px solid #999999;
+  cursor:default;
+  display:none;
+  margin-top: 15px;
+  position:absolute;
+  text-align:left;
+  width:394px;
+  z-index:50;
+  padding: 25px 25px 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 3px;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+
+.messagepop p, .messagepop.div {
+  border-bottom: 1px solid #EFEFEF;
+  margin: 8px 0;
+  padding-bottom: 8px;
+}

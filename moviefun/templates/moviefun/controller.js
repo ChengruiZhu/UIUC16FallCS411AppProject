@@ -36,5 +36,6 @@ app.controller('ListCtrl', ['$scope', '$http', function($scope, $http) {
             "imdbID": "tt0060196"
         }
     ];
+    $http
 
 }]);
