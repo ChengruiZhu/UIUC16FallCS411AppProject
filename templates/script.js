@@ -61,9 +61,6 @@ function initMap() {
         marker.setPosition(myLatLng);
         console.log(latitude + ', ' + longitude);
 
-        // Center of map
-        //map.panTo(new google.maps.LatLng(latitude, longitude));
-
     }); //end addListener
     map.addListener("bounds_changed", function (event) {
         var bounds = map.getBounds();
