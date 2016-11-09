@@ -9,6 +9,7 @@ from . import select1
 from . import select2
 from . import select3
 from . import insert_all
+from . import insert_loc
 #from . import delete_all
 urlpatterns = [
     url(r'^$', views.index, name='index'),
