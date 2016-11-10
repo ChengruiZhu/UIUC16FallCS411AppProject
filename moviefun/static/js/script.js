@@ -140,7 +140,7 @@ var main=function() {
             year[curr.value] = curr.checked?true:false;
         }
         if(ct==3){
-            var year={'1980': true,'1990': true,'2000':true};
+            year={'1980': true,'1990': true,'2000':true};
         }
         var param = {'year':year, 'genre': genre,'rating': ratings};
         console.log(param);
