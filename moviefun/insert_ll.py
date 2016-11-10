@@ -16,7 +16,7 @@ def insert_ll(request):
         y = geo.split(',')[1]
 
         s1 = MovieLocR.objects.get(imdbid = "tt" + imdbNum)
-        s2 = Loc.objects.get(address = s1.address)
+        s2 = Loc.objects.get(address = s1)
         s2.latitude = x
         s2.longitude = y
         s2.save()
