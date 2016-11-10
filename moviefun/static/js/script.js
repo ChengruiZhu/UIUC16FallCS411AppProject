@@ -107,6 +107,7 @@ function initMap() {
 }
 
 var main=function() {
+    getData();
     var mySidenav = document.getElementById("mySidenav");
 
 // Get the DIV with overlay effect
@@ -186,9 +187,16 @@ function query() {
     });
 
 }
-$.get("./imdb250.json", function(data, status){
-    list=data[0];
-});
+function getData(){
+    /*$.get("./imdb250.json", { name: "John", time: "2pm" } )
+        .done(function(data, status){
+        list=data[0];
+    });*/
+    $.get("./imdb250.json", function(data, status){
+        list=data[0];
+    });
+}
+
 $(document).ready(main);
 
 
