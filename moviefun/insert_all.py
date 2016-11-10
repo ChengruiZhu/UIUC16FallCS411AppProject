@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 from moviefun.models import *
 #from get_loc import getLocation
-start = 1124309 
+start = 1124592
 end = 9999999
 
 def insert_all(request):

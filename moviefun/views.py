@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #from django.http import HttpResponse
 
+STATIC_URL = '/static/'
+
 from django.shortcuts import render
 def index(request):
     context={}

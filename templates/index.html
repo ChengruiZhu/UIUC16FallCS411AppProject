@@ -3,11 +3,14 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
+    <!--<link rel="stylesheet" href="/static/css/styles.css">-->
+    <link rel="stylesheet" href="../moviefun/static/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="controller.js"></script>
-    <script src="script.js"></script>
+    <!--<script src="/static/js/controller.js"></script>
+    <script src="/static/js/script.js"></script>-->
+    <script src="../moviefun/static/js/controller.js"></script>
+    <script src="../moviefun/static/js/script.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
@@ -15,7 +18,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
-<title>W3.CSS Template</title>
+<title>Movie Fun</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-black.css">
@@ -24,9 +27,9 @@
 
 <body>
 
-<!-- Navbar -->
+<!-- Header -->
 <div class="w3-top">
-    <h1>Movie Fun<h2>
+    <h1>Movie Fun</h1>
 </div>
 
 <!-- Sidenav -->
@@ -35,6 +38,23 @@
         <i class="fa fa-remove"></i>
     </a>
     <h4>Search</h4>
+
+
+
+    <div class="messagepop pop">
+      <form method="post" id="new_message" action="/messages">
+        <p><label for="email">Your email or name</label><input type="text" size="30" name="email" id="email" /></p>
+        <p><label for="body">Message</label><textarea rows="6" name="body" id="body" cols="35"></textarea></p>
+        <p><input type="submit" value="Send Message" name="commit" id="message_submit"/> or <a class="close" href="/">Cancel</a></p>
+      </form>
+    </div>
+
+    <a href="/contact" id="contact">Contact Us</a>
+
+
+
+
+    
     <div class="filterbox">
         <label>Location</label>
         <div class="form-group">
@@ -43,57 +63,56 @@
         </div>
 
         <div class="dropdown">
-            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Year
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu"  aria-labelledby="dLabel">
                 <form method="post"id="year">
-                        <input type="checkbox" name="animal" value="1980"/>1980
-                        <input type="checkbox" name="animal" value="1990" />1990
-                        <input type="checkbox" name="animal" value="2000" />2000
+                        <div><input type="checkbox" name="year" value="1980"/>1980</div>
+                        <div><input type="checkbox" name="year" value="1990" />1990</div>
+                        <div><input type="checkbox" name="year" value="2000" />2000</div>
                 </form>
             </ul>
         </div>
 
 
         <div class="dropdown">
-            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button  type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Genre
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu " aria-labelledby="dLabel">
-                <form method="post">
-                    <input type="checkbox" name="animal" value="Cat" />-1980<br />
-                    <input type="checkbox" name="animal" value="Dog" />1980-2000<br />
-                    <input type="checkbox" name="animal" value="Bird" />2000-<br />
+                <form method="post" id="genre">
+                    <div><input type="checkbox" name="genre" value="Drama" />Drama</div>
+                    <div><input type="checkbox" name="genre" value="Action" />Action</div>
+                    <div><input type="checkbox" name="genre" value="Romance" />Romance</div>
                 </form>
             </ul>
         </div>
 
 
         <div class="dropdown">
-            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Rating
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <form method="post">
-                    <input type="checkbox" name="animal" value="Cat" />9.0<br />
-                    <input type="checkbox" name="animal" value="Dog" />8.0<br />
-                    <input type="checkbox" name="animal" value="Bird" /><7.0<br />
-                    <input type="checkbox" name="animal" value="Bird" /><6.0<br />
+                <form method="post" id="ratings">
+                    <div><input type="checkbox" name="rating" value="8.0" />8.0</div>
+                    <div><input type="checkbox" name="rating" value="7.0" />7.0</div>
+                    <div><input type="checkbox" name="rating" value="6.0" />6.0</div>
                 </form>
             </ul>
         </div>
     </div>
-    <div class="list" ng-app="movieApp">
+<!--    <div class="list" ng-app="movieApp">
         <div ng-controller='ListCtrl'>
             <div ng-repeat="movie in movies">
                 {{movie.title}}
             </div>
         </div>
-    </div>
+    </div>-->
 
 </nav>
 
