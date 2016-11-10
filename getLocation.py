@@ -32,24 +32,39 @@ def main():
     key = ['AIzaSyAiAnz_K18bDdmJoCNCVFMjV0QqxfvuVb8',
            'AIzaSyDCNd_elCpRNEq9QOOPcHpGb4Xan4T03r4',
            'AIzaSyDAYjzp8PdS9qik5WfuwPXO6JYfJdrJpB8',
-           'AIzaSyDgeVRx7kyJTN0T26r4PqEocBB6oKiqjZM',]
+           'AIzaSyDgeVRx7kyJTN0T26r4PqEocBB6oKiqjZM',
+           'AIzaSyBt6agKRhfZjeilaXddUHDJPxkP7bdWiVg',]
 
-    inputFile = open("./data/address")
-    outputFile = open("./data/geolocation", 'a')
-    line = inputFile.readline()
-    i = 0
-    cnt = 0
+    geoFile = open("./data/geo")
 
+    dict = {}
 
-    while line.split('|')[0] <= '0056201':
-        line = inputFile.readline()
-    print('Starting...')
-
+    line = geoFile.readline()
     while len(line) != 0:
         imdbNum = line.split('|')[0]
         address = line.split('|')[1]
-        if 'locations' not in address:
+        dict[imdbNum] = address
+        line = geoFile.readline()
+
+    geoFile.close()
+    print('Starting...')
+
+    inputFile = open("./data/address")
+    outputFile = open("./data/geo", 'a')
+
+    line = inputFile.readline()
+
+    cnt = 1
+    i=0
+    while len(line) != 0:
+
+        imdbNum = line.split('|')[0]
+        address = line.split('|')[1]
+
+        if imdbNum > '0292172' and imdbNum not in dict.keys():
             lat, lng = geoCoding(address, key[i])
+            print(imdbNum)
+            dict[imdbNum] = str(lat)+','+str(lng)
         else:
             lat = 555
         if lat != 888 and lat != 666 and lat != 555:
@@ -57,12 +72,11 @@ def main():
             cnt += 1
             print(cnt)
         elif lat == 888:
-            if i < 3:
+            if i < len(key)-1:
                 i += 1
                 print('new key is: ' + key[i])
             else:
                 print('Key used up!')
-                print('imdbNum = ' + imdbNum)
                 inputFile.close()
                 outputFile.close()
                 return

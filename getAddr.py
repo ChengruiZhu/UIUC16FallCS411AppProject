@@ -23,27 +23,38 @@ def getLocation(id):
 
 
 def main():
-    outputFile = open("./data/address", 'a')
+
+    addrFile = open("./data/address")
+
+    dict = {}
+    line = addrFile.readline()
+    while len(line) != 0:
+        imdbNum = line.split('|')[0]
+        address = line.split('|')[1]
+        dict[imdbNum] = address
+        line = addrFile.readline()
+    addrFile.close()
+
+    outputFile = open("./data/address",'a')
     inputFile = open("./data/movies.csv")
+
     inputFile.readline()
     num = inputFile.readline().split(',')[0][3:-1]
-    while num <= '0166137':
-        num = inputFile.readline().split(',')[0][3:-1]
-    print('Starting...')
-    cnt = 0
     while len(num) != 0:
         try:
-            address = getLocation(num)
-            if len(address) > 1:
-                outputFile.write(num+'|'+address+'\n')
-            print(num)
-            print(float(cnt)/94833.0)
-            cnt += 1
+            if num > '0521868' and num not in dict.keys():
+                address = getLocation(num)
+                if len(address) > 1 and 'locations' not in address:
+                    outputFile.writelines(num+'|'+address)
+                    dict[num] = address
+                print(num)
             num = inputFile.readline().split(',')[0][3:-1]
+
         except:
             outputFile.close()
             inputFile.close()
-            print("Errors! Last num is %d" % num)
+            print("Errors! Last num is", num)
+            exit()
     outputFile.close()
     inputFile.close()
 
