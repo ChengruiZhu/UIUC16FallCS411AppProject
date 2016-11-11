@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse
 from moviefun.models import *
+import json
 
 STATIC_URL = '/static/'
 
