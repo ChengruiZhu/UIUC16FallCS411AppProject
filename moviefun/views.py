@@ -56,17 +56,46 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
                                   log_min+(i+1)*log_dist,
                                   lat_min+j*lat_dist,
                                   lat_min+(j+1)*lat_dist)
-    str = ''
+    str = '{"movies":['
+    dict = {}
+    movieArr = []
     for var in set:
-        str = str + var.imdbid_id + ' '
-    r = {'is_claimed': 'True', 'rating': 3.5}
-    r = json.dumps(r)
-    loaded_r = json.loads(r)
+        obj_1 = Movie.objects.get(imdbid = var.imdbid_id)
+        obj_2 = Loc.objects.get(address  = var.address_id)
+        dict['imdbid'] = obj_1.imdbid
+        dict['title'] = obj_1.title
+        dict['year'] = obj_1.year
+        dict['rated'] = obj_1.rated
+        dict['released'] = obj_1.released
+        dict['runtime'] = obj_1.runtime
+        dict['genre'] = obj_1.genre
+        dict['director'] = obj_1.director
+        dict['writer'] = obj_1.writer
+        dict['actors'] = obj_1.actors
+        dict['plot'] = obj_1.plot
+        dict['language'] = obj_1.language
+        dict['awards'] = obj_1.awards
+        dict['poster'] = obj_1.poster
+        dict['idbrating'] = obj_1.imdbrating
+        dict['imdbvotes'] = obj_1.imdbvotes
+        dict['type'] = obj_1.type
+        dict['address'] = obj_2.address
+        dict['latitude'] = obj_2.latitude
+        dict['longitude'] = obj_2.longitude
+        movieArr.append(dict)
+
+    # loaded_r = json.loads(r)
     #loaded_r['rating'] #Output 3.5
     if request.method ==  'GET':
-        return HttpResponse(loaded_r)
-    elif request.method ==  'POST':
-        return HttpResponse("<p>" + str + "</p>")
+        response = HttpResponse(json.dumps(movieArr))
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Max-Age"] = "1000"
+        response["Access-Control-Allow-Headers"] = "*"
+        response[""]
+        return response
+    # elif request.method ==  'POST':
+    #     return HttpResponse("<p>" + str + "</p>")
 
 
 
