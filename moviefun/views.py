@@ -58,12 +58,10 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
     str = ''
     for var in set:
         str = str + var.imdbid_id + ' '
-    return HttpResponse("<p>" + str + "</p>")
+    if request.method ==  'GET':
+        return HttpResponse("<p>" + str + "</p>")
+    elif request.method ==  'POST':
+        return HttpResponse("<p>" + str + "</p>")
 
-# def post_detail(request, lat_1, lat_2, log_1, log_2):
-#     if request.method ==  'GET':
-#         return HttpResponse("<p>" + str(lat_1) +' '+ str(lat_2) +' '+ str(log_1) +' '+ str(log_2) + "</p>")
-#     elif request.method ==  'POST':
-#         return HttpResponse("<p>" + str(lat_1) +' '+ str(log_1) +' '+ str(log_2) + "</p>")
 
 
