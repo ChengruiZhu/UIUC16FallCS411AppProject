@@ -3,12 +3,12 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <!-- <link rel="stylesheet" href="/static/css/styles.css"> -->
-    <link rel="stylesheet" href="../moviefun/static/css/styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <!-- <script src="/static/js/controller.js"></script> -->
-    <!-- <script src="/static/js/script.js"></script> -->
+     <link rel="stylesheet" href="/static/css/styles.css">
+    <!--<link rel="stylesheet" href="../moviefun/static/css/styles.css">-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+     <script src="/static/js/controller.js"></script>
+     <script src="/static/js/script.js"></script>
     <script src="../moviefun/static/js/controller.js"></script>
     <script src="../moviefun/static/js/script.js"></script>
     <!-- Latest compiled and minified CSS -->
@@ -89,8 +89,9 @@
                 </form>
             </ul>
         </div>
+        <div><button id='Like'>Like this movie</button></div>
     </div>
-    <button id='Like'>button</button>
+
     <div class="list" ng-app="movieApp">
         <div ng-controller='ListCtrl'>
             <div ng-repeat="movie in movies">

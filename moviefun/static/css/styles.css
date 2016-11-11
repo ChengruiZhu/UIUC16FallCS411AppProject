@@ -9,11 +9,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     padding-top: 12px;
     padding-bottom: 12px;
 }
-.dropdown{
-    padding-top: 10px;
-}
+
 .filterbox{
     padding-left:10px;
+}
+.filterbox div{
+    padding-top:10px;
 }
 .list{
     width:100%;

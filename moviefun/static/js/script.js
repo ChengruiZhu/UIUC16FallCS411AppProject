@@ -65,7 +65,7 @@ function initMap() {
         });
 
         marker.addListener('click', function() {
-            var str="<p>"+movie['title']+"</p><button id='likes' value ="+movie['imdbid']+" >me</button>"
+            var str="<p>"+movie['title']+"</p>"
             
             var btn = document.getElementById('likes');
             id = movie['imdbid'];
