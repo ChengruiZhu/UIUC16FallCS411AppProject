@@ -33,10 +33,10 @@ def findMovie(list, long_min, long_max, la_min, la_max):
 
 
 def post_detail(request, lat_1, lat_2, log_1, log_2):
-    log_max = log_1 if log_1 > log_2 else log_2
-    log_min = log_1 if log_1 < log_2 else log_2
-    lat_max = lat_1 if lat_1 > lat_2 else lat_2
-    lat_min = lat_1 if lat_1 < lat_2 else lat_2
+    log_max = float(log_1) if float(log_1) > float(log_2) else float(log_2)
+    log_min = float(log_1) if float(log_1) < float(log_2) else float(log_2)
+    lat_max = float(lat_1) if float(lat_1) > float(lat_2) else float(lat_2)
+    lat_min = float(lat_1) if float(lat_1) < float(lat_2) else float(lat_2)
 
     list = Loc.objects.all()
 
