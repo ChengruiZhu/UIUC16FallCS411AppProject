@@ -33,9 +33,11 @@ var ratings={'6.0': true,'7.0': true,'8.0':true};
 
 var map;
 var markers = [];
-var Locs = [{lat: -25.363, lng: 131.044}, {lat: -20.363, lng: 131.044},
-            {lat: -25.363, lng: 136.044}, {lat: -20.363, lng: 136.044}];
-var data = ["movie1", "movie2", "movie3", "movie4"]; 
+
+var north;
+var south;
+var west;
+var east;
 
 var year={};
 function initMap() {
@@ -49,38 +51,52 @@ function initMap() {
     var infowindow = new google.maps.InfoWindow({
         content: null
     });
-
-    function addMarker(location, data) {
+    
+    function addMarker(movie) {
         var marker = new google.maps.Marker({
-            position: location,
+            position: {lat: Number(movie["latitude"]),
+                        lng: Number(movie["longitude"])},
             map: map
         });
+
         marker.addListener('click', function() {
-            infowindow.setContent(data);
+            var str="<p>"+movie['title']+"</p><button id='likes' value ="+movie['imdbid']+" >me</button>"
+            
+            var btn = document.getElementById('likes');
+
+            $('#likes').on('click', function(){
+                console.log(2);
+                var btn = document.getElementById('likes');
+                console.log(btn.value);
+                like(btn.value);
+
+            });
+
+            infowindow.setContent(str);
             infowindow.open(map, marker);
         });
         markers.push(marker);
     }
   
     function boundChange(){
-        for (var i = 0; i < 4; i++) {
-            addMarker(Locs[i], data[i]);
-        }
-
+        getData(function() {
+            for (var i = 0; i < list.length; i++) {
+                addMarker(list[i]);
+            }
+        });     
     }
-    boundChange();
-    setMapOnAll(map);
-    showMarkers();
 
     map.addListener("bounds_changed", function (event) {
         var bounds = map.getBounds();
-        var north=bounds.getNorthEast().lat();
-        var south=bounds.getSouthWest().lat();
-        var west=bounds.getNorthEast().lng();
-        var east = bounds.getNorthEast().lng();
+        north=bounds.getNorthEast().lat();
+        south=bounds.getSouthWest().lat();
+        west=bounds.getNorthEast().lng();
+        east = bounds.getSouthWest().lng();
+        boundChange();
+        setMapOnAll(map);
+        showMarkers();
 
     });
-
     // Sets the map on all markers in the array.
     function setMapOnAll(map) {
         for (var i = 0; i < markers.length; i++) {
@@ -95,21 +111,25 @@ function initMap() {
     function showMarkers() {
         setMapOnAll(map);
     }
-
     // Deletes all markers in the array by removing references to them.
     function deleteMarkers() {
         clearMarkers();
         markers = [];
     }
-
 }
 
 var main=function() {
-    //getData();
     var mySidenav = document.getElementById("mySidenav");
 
 // Get the DIV with overlay effect
     var overlayBg = document.getElementById("myOverlay");
+    /*$('#likes').on('click', function(){
+        btn = getElementById('likes');
+        console.log(2);
+        console.log(btn.value);
+        like(btn.value);
+    });*/
+
 
 // Toggle between showing and hiding the sidenav, and add overlay effect
     function w3_open() {
@@ -132,7 +152,7 @@ var main=function() {
 
     $('#year').on('click','input', function () {
         var filter = document.getElementById("year");
-        var ct=0
+        var ct=0;
         for(var i = 0; i < filter.children.length; i++){
             var curr = filter.children[i].children[0];
             if(!curr.checked) ct++;
@@ -142,7 +162,6 @@ var main=function() {
             year={'1980': true,'1990': true,'2000':true};
         }
         var param = {'year':year, 'genre': genre,'rating': ratings};
-        console.log(param);
     });
     $('#genre').on('click','input', function () {
         var filter = document.getElementById("genre");
@@ -157,7 +176,6 @@ var main=function() {
             genre={'Action': true,'Drama': true,'Romance':true};
         }
         var param = {'year':year, 'genre': genre,'rating': ratings};
-        console.log(param);
     });
     $('#ratings').on('click','input', function () {
         var filter = document.getElementById("ratings");
@@ -171,7 +189,6 @@ var main=function() {
             ratings={'6.0': true,'7.0': true,'8.0':true};
         }
         var param = {'year':year, 'genre': genre,'rating': ratings};
-        console.log(param);
     });
 }
 function query() {
@@ -185,22 +202,24 @@ function query() {
     });
 
 }
-// function getData(){
-//     $.get("./imdb250.json", { name: "John", time: "2pm" } )
-//         .done(function(data, status){
-//         list=data[0];
-//     });
-//     $.get("./imdb250.json", function(data, status){
-//         list=data[0];
-//     });
-// }
+function getData(callback){
 
+    /*$.get("http://fa16-cs411-04.cs.illinois.edu:8000/moviefun/get/200.0/240.0/50.0/70.0/", function(data, status){
+        list = data;
+        // console.log(data);
+    });*/
+    $.get("http://fa16-cs411-04.cs.illinois.edu:8000/moviefun/get/"+
+           (north+180.0).toString()+"/"+(south+180.0).toString()+"/"+
+           (west+180.0).toString()+"/"+(east+180.0).toString()+"/", function(data, status){
+        list = data;
+        // console.log(data);
+    });
 
-
-
+    callback();    
+}
+function like(movieID){
+    $.get("http://fa16-cs411-04.cs.illinois.edu:8000/moviefun/like/"+movieID, function(){
+    });
+}
 
 $(document).ready(main);
-
-
-
-
