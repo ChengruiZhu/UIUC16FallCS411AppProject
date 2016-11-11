@@ -13,10 +13,9 @@ from . import insert_ll
 #from . import delete_all
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^post/(?P<lat_1>\d+\.\d+)/(?P<lat_2>\d+\.\d+)/(?P<log_1>\d+\.\d+)/(?P<log_2>\d+\.\d+)/$',
-    #     views.post_detail, name='post_detail'),
-    url(r'^post/(?P<id>\d+)/$',
-        views.post_detail, name='post_detail'),
+    url(r'^post/(?P<lat_1>\d+\.\d+)/(?P<lat_2>\d+\.\d+)/(?P<log_1>\d+\.\d+)/(?P<log_2>\d+\.\d+)/$',views.post_detail, name='post_detail'),
+   # url(r'^post/(?P<id>\d+)/$',
+    #    views.post_detail, name='post_detail'),
     #url(r'test',testdb.testdb),
     url(r'insert/',insert.insert),
     url(r'update/',update.update),
