@@ -5,9 +5,9 @@ import json
 
 STATIC_URL = '/static/'
 
-m_num = 3
-log_num = 10
-lat_num = 10
+m_num = 1
+log_num = 4
+lat_num = 4
 
 
 from django.shortcuts import render
@@ -18,7 +18,7 @@ def index(request):
     return render(request,'index.html', context)
 # Create your views here.
 
-def like(request, imdbid):
+def love(request, imdbid):
     s = Like.objects.filter(imdbid = imdbid)
     if len(s) == 0:
         t = Like(imdbid = imdbid, like = 1)
@@ -27,7 +27,7 @@ def like(request, imdbid):
         t = Like.objects.get(imdbid = imdbid)
         t.like = t.like + 1
         t.save()
-    if request.method ==  'POST':
+    if request.method ==  'GET':
         response = HttpResponse('insert success!')
         response["Access-Control-Allow-Origin"] = "*"
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
@@ -35,30 +35,31 @@ def like(request, imdbid):
         response["Access-Control-Allow-Headers"] = "*"
         return response
 
-def findMovie(list, long_min, long_max, la_min, la_max):
-    l = MovieLocR.objects.none()
-    for var in list:
-        if len(l) < m_num:
-            if var.longitude != "N/A":
-                if float(var.longitude) > long_min and float(var.longitude) < long_max \
-                        and float(var.latitude) > la_min and float(var.latitude) < la_max:
-                    s = MovieLocR.objects.filter(address = var.address)
-                    l = l | s
-        else:
-            break
-    return l
+def queryfirst(qs):
+    r = list(qs[:1])
+    if r:
+        return r[0]
+    return None
+  
 
+def findMovie(list, long_min, long_max, la_min, la_max):
+    for var in list:
+        if var.longitude != "N/A":
+            if float(var.longitude) > long_min and float(var.longitude) < long_max \
+                    and float(var.latitude) > la_min and float(var.latitude) < la_max:
+                s = MovieLocR.objects.filter(address = var.address)
+                return queryfirst(s)
 
 def post_detail(request, lat_1, lat_2, log_1, log_2):
-    log_max = float(log_1) if float(log_1) > float(log_2) else float(log_2)
-    log_min = float(log_1) if float(log_1) < float(log_2) else float(log_2)
-    lat_max = float(lat_1) if float(lat_1) > float(lat_2) else float(lat_2)
-    lat_min = float(lat_1) if float(lat_1) < float(lat_2) else float(lat_2)
+    log_max = float(log_1)-180.0 if float(log_1) > float(log_2) else float(log_2)-180.0 
+    log_min = float(log_1)-180.0 if float(log_1) < float(log_2) else float(log_2)-180.0
+    lat_max = float(lat_1)-180.0 if float(lat_1) > float(lat_2) else float(lat_2)-180.0
+    lat_min = float(lat_1)-180.0 if float(lat_1) < float(lat_2) else float(lat_2)-180.0
 
     list = Loc.objects.all()
 
     l = []
-    set = MovieLocR.objects.none()
+    ss = []
     for var in list:
         if var.longitude != "N/A":
             if float(var.longitude) > log_min and float(var.longitude) < log_max \
@@ -69,16 +70,23 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
     lat_dist = (lat_max-lat_min)/lat_num
     for i in range(log_num):
         for j in range(lat_num):
-            set = set | findMovie(l, log_min+i*log_dist,
+            tmp = findMovie(l, log_min+i*log_dist,
                                   log_min+(i+1)*log_dist,
                                   lat_min+j*lat_dist,
                                   lat_min+(j+1)*lat_dist)
-    str = '{"movies":['
-    dict = {}
+            if tmp != None:
+                ss.append(tmp)
     movieArr = []
-    for var in set:
+    for var in ss:
+        dict = {}
         obj_1 = Movie.objects.get(imdbid = var.imdbid_id)
         obj_2 = Loc.objects.get(address  = var.address_id)
+        obj = Like.objects.filter(imdbid  = var.imdbid_id)
+        if len(obj) == 0:
+            dict['like'] = 0
+        else:
+            obj_3 = Like.objects.get(imdbid = var.imdbid_id)
+            dict['like'] = obj_3.like
         dict['imdbid'] = obj_1.imdbid
         dict['title'] = obj_1.title
         dict['year'] = obj_1.year
@@ -109,6 +117,7 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
         response["Access-Control-Max-Age"] = "1000"
         response["Access-Control-Allow-Headers"] = "*"
+        response["Content-Type"] = "application/json; charset=uft-8"
         return response
     # elif request.method ==  'POST':
     #     return HttpResponse("<p>" + str + "</p>")
