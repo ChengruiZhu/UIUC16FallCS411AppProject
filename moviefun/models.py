@@ -41,5 +41,9 @@ class TVPlay(models.Model):
 class TVSeries(models.Model):
     seriesid = models.OneToOneField(Movie, on_delete=models.CASCADE, primary_key=True)
     totalseasons = models.CharField(max_length=200, default='N/A')
+
+class Like(models.Model):
+    imdbid = models.CharField(primary_key=True, max_length=200)
+    like = models.IntegerField(default=0)
     ##
 # Create your models here.

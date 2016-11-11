@@ -79,9 +79,9 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         dict['idbrating'] = obj_1.imdbrating
         dict['imdbvotes'] = obj_1.imdbvotes
         dict['type'] = obj_1.type
-        dict['address'] = obj_2.address
+        dict['address'] = obj_2.address.strip()
         dict['latitude'] = obj_2.latitude
-        dict['longitude'] = obj_2.longitude
+        dict['longitude'] = obj_2.longitude.strip()
         movieArr.append(dict)
 
     # loaded_r = json.loads(r)
