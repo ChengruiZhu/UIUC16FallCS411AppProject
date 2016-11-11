@@ -27,16 +27,16 @@ def findMovie(list, long_min, long_max, la_min, la_max):
                     s = MovieLocR.objects.filter(address = var.address)[:1]
                     l = l | s
                     l.distinct()
-        else
+        else:
             break
     return list(l)
 
 
 def post_detail(request, lat_1, lat_2, log_1, log_2):
-    log_max = log_1 if log_1 > log_2 else log_2;
-    log_min = log_1 if log_1 < log_2 else log_2;
-    lat_max = lat_1 if lat_1 > lat_2 else lat_2;
-    lat_min = lat_1 if lat_1 > lat_2 else lat_2;
+    log_max = log_1 if log_1 > log_2 else log_2
+    log_min = log_1 if log_1 < log_2 else log_2
+    lat_max = lat_1 if lat_1 > lat_2 else lat_2
+    lat_min = lat_1 if lat_1 < lat_2 else lat_2
 
     list = Loc.objects.all()
 
@@ -50,8 +50,8 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
 
     log_dist = (log_max-log_min)/log_num
     lat_dist = (lat_max-lat_min)/lat_num
-    for i in range log_num:
-        for j in range lat_num:
+    for i in range(log_num):
+        for j in range(lat_num):
             set = set + findMovie(l, log_min+i*log_dist,
                                   log_min+(i+1)*log_dist,
                                   lat_min+j*lat_dist,
