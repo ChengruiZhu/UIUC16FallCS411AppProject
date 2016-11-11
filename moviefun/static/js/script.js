@@ -38,6 +38,7 @@ var north;
 var south;
 var west;
 var east;
+var id;
 
 var year={};
 function initMap() {
@@ -51,7 +52,11 @@ function initMap() {
     var infowindow = new google.maps.InfoWindow({
         content: null
     });
-    
+
+    $('#Like').on('click', function(){
+        like(id);
+    });
+
     function addMarker(movie) {
         var marker = new google.maps.Marker({
             position: {lat: Number(movie["latitude"]),
@@ -63,19 +68,11 @@ function initMap() {
             var str="<p>"+movie['title']+"</p><button id='likes' value ="+movie['imdbid']+" >me</button>"
             
             var btn = document.getElementById('likes');
-
-            
+            id = movie['imdbid'];
+            console.log(id);
 
             infowindow.setContent(str);
             infowindow.open(map, marker);
-
-            $('#likes').on('click', function(){
-                console.log(2);
-                var btn = document.getElementById('likes');
-                console.log(btn.value);
-                like(btn.value);
-
-            });
         });
         markers.push(marker);
     }
@@ -220,7 +217,7 @@ function getData(callback){
     callback();    
 }
 function like(movieID){
-    $.get("http://fa16-cs411-04.cs.illinois.edu:8000/moviefun/like/"+movieID, function(){
+    $.get("http://fa16-cs411-04.cs.illinois.edu:8000/moviefun/like/"+movieID+"/", function(data){
     });
 }
 
