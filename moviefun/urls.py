@@ -2,7 +2,6 @@
 from django.conf.urls import url
 
 from . import views
-from . import testdb
 from . import insert
 from . import update
 from . import select1
@@ -10,6 +9,7 @@ from . import select2
 from . import select3
 from . import insert_all
 from . import insert_loc
+from . import insert_ll
 #from . import delete_all
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'select3/', select3.select),
     url(r'create',insert_all.insert_all),
     url(r'location',insert_loc.insert_loc),
+    url(r'address',insert_ll.insert_ll),
     #url(r'delete_all',delete_all.delete_all),
 ]
