@@ -18,6 +18,23 @@ def index(request):
     return render(request,'index.html', context)
 # Create your views here.
 
+def like(request, imdbid):
+    s = Like.objects.filter(imdbid = imdbid)
+    if len(s) == 0:
+        t = Like(imdbid = imdbid, like = 1)
+        t.save()
+    else:
+        t = Like.objects.get(imdbid = imdbid)
+        t.like = t.like + 1
+        t.save()
+    if request.method ==  'POST':
+        response = HttpResponse('insert success!')
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Max-Age"] = "1000"
+        response["Access-Control-Allow-Headers"] = "*"
+        return response
+
 def findMovie(list, long_min, long_max, la_min, la_max):
     l = MovieLocR.objects.none()
     for var in list:
