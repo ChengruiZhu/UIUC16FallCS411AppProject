@@ -3,7 +3,6 @@ var list;
 var year={'1980': true,'1990': true,'2000':true};
 var genre={'Action': true,'Drama': true,'Romance':true};
 var ratings={'6.0': true,'7.0': true,'8.0':true};
-
 //for click blank space, popup disappears
 // function deselect(e) {
 //   $('.pop').slideFadeToggle(function() {
@@ -32,58 +31,47 @@ var ratings={'6.0': true,'7.0': true,'8.0':true};
 //   return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
 // };
 
-
-
-
 var map;
 var markers = [];
+var Locs = [{lat: -25.363, lng: 131.044}, {lat: -20.363, lng: 131.044},
+            {lat: -25.363, lng: 136.044}, {lat: -20.363, lng: 136.044}];
+var data = ["movie1", "movie2", "movie3", "movie4"]; 
 
 var year={};
 function initMap() {
-    var myLatLng = {lat: -25.363, lng: 131.044};
+    myLatLng = {lat: -25.363, lng: 131.044};
 
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 4,
         center: myLatLng
     });
 
-    var marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        title: 'Hello World!'
-    });
-
-//----------------------infoWindow
-    var data = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-            'sandstone rock formation in the southern part of the '+
-            'Heritage Site.</p>'+
-            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-            '(last visited June 22, 2009).</p>'+
-            '</div>'+
-            '</div>';
     var infowindow = new google.maps.InfoWindow({
-      content: data
+        content: null
     });
 
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
+    function addMarker(location, data) {
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+        marker.addListener('click', function() {
+            infowindow.setContent(data);
+            infowindow.open(map, marker);
+        });
+        markers.push(marker);
+    }
+  
+    function boundChange(){
+        for (var i = 0; i < 4; i++) {
+            addMarker(Locs[i], data[i]);
+        }
 
-//----------------------
+    }
+    boundChange();
+    setMapOnAll(map);
+    showMarkers();
 
-
-    map.addListener("click", function (event) {
-        var latitude = event.latLng.lat();
-        var longitude = event.latLng.lng();
-
-        var myLatLng = {lat: latitude, lng: longitude};
-
-        marker.setPosition(myLatLng);
-
-    }); //end addListener
     map.addListener("bounds_changed", function (event) {
         var bounds = map.getBounds();
         var north=bounds.getNorthEast().lat();
@@ -92,13 +80,6 @@ function initMap() {
         var east = bounds.getNorthEast().lng();
 
     });
-    function addMarker(location) {
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map
-        });
-        markers.push(marker);
-    }
 
     // Sets the map on all markers in the array.
     function setMapOnAll(map) {
@@ -106,12 +87,10 @@ function initMap() {
             markers[i].setMap(map);
         }
     }
-
     // Removes the markers from the map, but keeps them in the array.
     function clearMarkers() {
         setMapOnAll(null);
     }
-
     // Shows any markers currently in the array.
     function showMarkers() {
         setMapOnAll(map);
@@ -126,7 +105,7 @@ function initMap() {
 }
 
 var main=function() {
-    getData();
+    //getData();
     var mySidenav = document.getElementById("mySidenav");
 
 // Get the DIV with overlay effect
@@ -206,15 +185,19 @@ function query() {
     });
 
 }
-function getData(){
-    /*$.get("./imdb250.json", { name: "John", time: "2pm" } )
-        .done(function(data, status){
-        list=data[0];
-    });*/
-    $.get("./imdb250.json", function(data, status){
-        list=data[0];
-    });
-}
+// function getData(){
+//     $.get("./imdb250.json", { name: "John", time: "2pm" } )
+//         .done(function(data, status){
+//         list=data[0];
+//     });
+//     $.get("./imdb250.json", function(data, status){
+//         list=data[0];
+//     });
+// }
+
+
+
+
 
 $(document).ready(main);
 
