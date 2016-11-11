@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#from django.http import HttpResponse
+from django.http import HttpResponse
 from moviefun.models import *
 
 STATIC_URL = '/static/'
