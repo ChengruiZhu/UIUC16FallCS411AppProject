@@ -64,6 +64,11 @@ function initMap() {
             
             var btn = document.getElementById('likes');
 
+            
+
+            infowindow.setContent(str);
+            infowindow.open(map, marker);
+
             $('#likes').on('click', function(){
                 console.log(2);
                 var btn = document.getElementById('likes');
@@ -71,9 +76,6 @@ function initMap() {
                 like(btn.value);
 
             });
-
-            infowindow.setContent(str);
-            infowindow.open(map, marker);
         });
         markers.push(marker);
     }
