@@ -3,43 +3,40 @@ var list;
 var year={'1980': true,'1990': true,'2000':true};
 var genre={'Action': true,'Drama': true,'Romance':true};
 var ratings={'6.0': true,'7.0': true,'8.0':true};
-function deselect(e) {
-  $('.pop').slideFadeToggle(function() {
-    e.removeClass('selected');
-  });    
-}
 
-$(function() {
-  $('#contact').on('click', function() {
-    if($(this).hasClass('selected')) {
-      deselect($(this));               
-    } else {
-      $(this).addClass('selected');
-      $('.pop').slideFadeToggle();
-    }
-    return false;
-  });
+//for click blank space, popup disappears
+// function deselect(e) {
+//   $('.pop').slideFadeToggle(function() {
+//     e.removeClass('selected');
+//   });    
+// }
 
-  $('.close').on('click', function() {
-    deselect($('#contact'));
-    return false;
-  });
-});
+// $(function() {
+//   $('#contact').on('click', function() {
+//     if($(this).hasClass('selected')) {
+//       deselect($(this));               
+//     } else {
+//       $(this).addClass('selected');
+//       $('.pop').slideFadeToggle();
+//     }
+//     return false;
+//   });
 
-$.fn.slideFadeToggle = function(easing, callback) {
-  return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
-};
+//   $('.close').on('click', function() {
+//     deselect($('#contact'));
+//     return false;
+//   });
+// });
+
+// $.fn.slideFadeToggle = function(easing, callback) {
+//   return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+// };
 
 
-
-
-//--------------------------------------------------------//
 
 
 var map;
 var markers = [];
-
-
 
 var year={};
 function initMap() {
@@ -55,6 +52,28 @@ function initMap() {
         map: map,
         title: 'Hello World!'
     });
+
+//----------------------infoWindow
+    var data = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+            'sandstone rock formation in the southern part of the '+
+            'Heritage Site.</p>'+
+            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+            '(last visited June 22, 2009).</p>'+
+            '</div>'+
+            '</div>';
+    var infowindow = new google.maps.InfoWindow({
+      content: data
+    });
+
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+
+//----------------------
+
 
     map.addListener("click", function (event) {
         var latitude = event.latLng.lat();
