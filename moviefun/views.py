@@ -92,7 +92,6 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
         response["Access-Control-Max-Age"] = "1000"
         response["Access-Control-Allow-Headers"] = "*"
-        response[""]
         return response
     # elif request.method ==  'POST':
     #     return HttpResponse("<p>" + str + "</p>")
