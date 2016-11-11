@@ -13,7 +13,7 @@ from . import insert_ll
 #from . import delete_all
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    # url(r'^post/(?P<lat_1>\f+&P<lat_2>\f+&P<log_1>\f+&P<log_2>\f+)/$',
+    url(r'^post/(?P<lat_1>\d+\.\d+)/(?P<lat_2>\d+\.\d+)/(?P<log_1>\d+\.\d+)/(?P<log_2>\d+\.\d+)/$',
     #     views.post_detail, name='post_detail'),
     url(r'^post/(?P<id>\d+)/$',
         views.post_detail, name='post_detail'),

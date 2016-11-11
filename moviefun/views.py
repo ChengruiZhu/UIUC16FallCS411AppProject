@@ -61,8 +61,8 @@ def findMovie(list, long_min, long_max, la_min, la_max):
 #         str = str + var.imdbid + ' '
 #     return HttpResponse("<p>" + str + "</p>")
 
-def post_detail(request, id):
-    return HttpResponse("<p>" + str(id) + "</p>")
+def post_detail(request, lat_1, lat_2, log_1, log_2):
+    return HttpResponse("<p>" + str(lat_1) +' '+ str(lat_2) +' '+ str(log_1) +' '+ str(log_2) + "</p>")
 
 
 
