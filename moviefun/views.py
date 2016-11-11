@@ -59,8 +59,12 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
     str = ''
     for var in set:
         str = str + var.imdbid_id + ' '
+    r = {'is_claimed': 'True', 'rating': 3.5}
+    r = json.dumps(r)
+    loaded_r = json.loads(r)
+    #loaded_r['rating'] #Output 3.5
     if request.method ==  'GET':
-        return HttpResponse("<p>" + str + "</p>")
+        return HttpResponse(loaded_r)
     elif request.method ==  'POST':
         return HttpResponse("<p>" + str + "</p>")
 
