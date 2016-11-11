@@ -24,9 +24,8 @@ def findMovie(list, long_min, long_max, la_min, la_max):
             if var.longitude != "N/A":
                 if float(var.longitude) > long_min and float(var.longitude) < long_max \
                         and float(var.latitude) > la_min and float(var.latitude) < la_max:
-                    s = MovieLocR.objects.filter(address = var.address)[:1]
+                    s = MovieLocR.objects.filter(address = var.address)
                     l = l | s
-                    l.distinct()
         else:
             break
     return l
@@ -58,7 +57,7 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
                                   lat_min+(j+1)*lat_dist)
     str = ''
     for var in set:
-        str = str + var.imdbid + ' '
+        str = str + var.imdbid_id + ' '
     return HttpResponse("<p>" + str + "</p>")
 
 # def post_detail(request, lat_1, lat_2, log_1, log_2):
