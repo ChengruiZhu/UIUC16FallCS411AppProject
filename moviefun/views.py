@@ -6,8 +6,8 @@ import json
 STATIC_URL = '/static/'
 
 m_num = 1
-log_num = 4
-lat_num = 4
+log_num = 6
+lat_num = 6
 
 
 from django.shortcuts import render
@@ -121,6 +121,7 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         return response
     # elif request.method ==  'POST':
     #     return HttpResponse("<p>" + str + "</p>")
+
 
 
 
