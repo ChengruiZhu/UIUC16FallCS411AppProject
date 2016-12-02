@@ -17,19 +17,19 @@ def insert_recommendation(request):
         year = var.year;
         if '–' in year:
             year = year[:-1]
-        tmplist1 = Movie.objects.filter(genre__icontains=var.genre)
+        tmplist1 = Movie.objects.filter(genre__icontains=var.genre).exclude(imdbid=var.imdbid)
         tmplist = tmplist1
         if len(tmplist) < 10:
-            tmplist2 = Movie.objects.filter(director__icontains=var.director)
+            tmplist2 = Movie.objects.filter(director__icontains=var.director).exclude(imdbid=var.imdbid)
             tmplist = tmplist | tmplist2
             tmplist.distinct()
             numOfMovies = len(tmplist)
             while (numOfMovies < 10):
-                tmplist3 = Movie.objects.filter(year__icontains=year)
+                tmplist3 = Movie.objects.filter(year__icontains=year).exclude(imdbid=var.imdbid)
                 tmplist = tmplist | tmplist3
                 tmplist.distinct()
                 numOfMovies = len(tmplist)
-                year = str(int(year) + 1)
+                year = year[:-1]
         else:
             tmplist = tmplist.filter(director__icontains=var.director)
             numOfMovies = len(tmplist)
@@ -38,7 +38,7 @@ def insert_recommendation(request):
                 tmplist = tmplist | tmplist3
                 tmplist.distinct()
                 numOfMovies = len(tmplist)
-                year = str(int(year) + 1)
+                year = year[:-1]
         for tmpvar in tmplist[:10]:
             t = RecomR(movie1_id=var,
                        movie2_id=tmpvar)
