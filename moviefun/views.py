@@ -6,8 +6,8 @@ import json
 STATIC_URL = '/static/'
 
 m_num = 1
-log_num = 6
-lat_num = 6
+log_num = 10
+lat_num = 10
 
 
 from django.shortcuts import render
@@ -81,6 +81,13 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         dict = {}
         obj_1 = Movie.objects.get(imdbid = var.imdbid_id)
         obj_2 = Loc.objects.get(address  = var.address_id)
+        obj_3 = RecomR.objects.filter(movie1_id_id = var.imdb_id)[:10]
+        rec = ""
+        for recvar in obj_3:
+            if rec == "":
+                rec += recvar.movie2_id_id
+            else :
+                rec = rec + ";" +recvar.movie2_id_id
         obj = Like.objects.filter(imdbid  = var.imdbid_id)
         if len(obj) == 0:
             dict['like'] = 0
@@ -107,6 +114,7 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         dict['address'] = obj_2.address.strip()
         dict['latitude'] = obj_2.latitude
         dict['longitude'] = obj_2.longitude.strip()
+        # dict['recommendation'] = rec
         movieArr.append(dict)
 
     # loaded_r = json.loads(r)

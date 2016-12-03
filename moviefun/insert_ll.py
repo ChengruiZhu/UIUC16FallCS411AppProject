@@ -15,11 +15,12 @@ def insert_ll(request):
         x = geo.split(',')[0]
         y = geo.split(',')[1]
 
-        s1 = MovieLocR.objects.get(imdbid = "tt" + imdbNum)
+        s1 = MovieLocR.objects.get(imdbid_id = "tt" + imdbNum)
         s2 = Loc.objects.get(address = s1.address_id)
-        s2.latitude = x
-        s2.longitude = y
-        s2.save()
+        if s2.latitude != 'N/A':
+            s2.latitude = x
+            s2.longitude = y
+            s2.save()
 
         line = inputFile.readline()
         # i=i+1
