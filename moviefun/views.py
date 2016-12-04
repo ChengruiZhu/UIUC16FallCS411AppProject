@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from moviefun.models import *
 import json
 
-import urllib2
+import urllib.request
 
 API_KEY = 'AIzaSyAiAnz_K18bDdmJoCNCVFMjV0QqxfvuVb8'
 
