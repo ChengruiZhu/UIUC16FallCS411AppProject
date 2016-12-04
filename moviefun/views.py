@@ -146,11 +146,11 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
     list_genre = MovieLocR.objects.none().select_related('imdbid').select_related('address')
 
     if isDrama == 'true':
-        list_genre = list_genre | list_all.imdbid.filter(genre__icontains = 'drama')
+        list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'drama')
     if isAction == 'true':
-        list_genre = list_genre | list_all.imdbid.filter(genre__icontains = 'action')
+        list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'action')
     if isRomance == 'true':
-        list_genre = list_genre | list_all.imdbid.filter(genre__icontains = 'Romance')
+        list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'Romance')
     list_genre.distinct()
 
     list_year = list_genre.filter(year__icontains = year_1)
