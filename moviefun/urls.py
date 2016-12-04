@@ -16,7 +16,11 @@ from . import insert_recommendation
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^get/(?P<lat_1>\d+\.\d+)/(?P<lat_2>\d+\.\d+)/(?P<log_1>\d+\.\d+)/(?P<log_2>\d+\.\d+)/$',views.post_detail, name='post_detail'),
-    url(r'^like/(?P<imdbid>[a-z0-9]{9})/$',views.love, name='love'),
+    url(r'^filter/(?P<lat_1>\d+\.\d+)/(?P<lat_2>\d+\.\d+)/(?P<log_1>\d+\.\d+)/(?P<log_2>\d+\.\d+)/(?P<year_1>\d+)/(?P<year_2>\d+)/'
+        r'(?P<rate_1>\d+\.\d+)/(?P<rate_2>\d+\.\d+)/(?P<isDrama>[a-z]{4})/(?P<isAction>[a-z]{4})/'
+        r'(?P<isRomance>[a-z]{4})/$', views.post_filter, name='post_filter'),
+    url(r'^like/(?P<imdbid>[a-z0-9]{9})/$', views.love, name='love'),
+    url(r'^location/(?P<addr>.+)/$', views.findMoviesByLoc, name='findMoviesByLoc'),
    # url(r'^post/(?P<id>\d+)/$',
     #    views.post_detail, name='post_detail'),
     #url(r'test',testdb.testdb),
