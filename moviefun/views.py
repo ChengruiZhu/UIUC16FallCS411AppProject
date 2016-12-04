@@ -142,14 +142,15 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
     lat_max = float(lat_1)-180.0 if float(lat_1) > float(lat_2) else float(lat_2)-180.0
     lat_min = float(lat_1)-180.0 if float(lat_1) < float(lat_2) else float(lat_2)-180.0
 
-    list_genre = Movie.objects.filter(year = '0000')
+    list_all = MovieLocR.objects.all().select_related('imdbid').select_related('address')
+    list_genre = MovieLocR.objects.none().select_related('imdbid').select_related('address')
 
     if isDrama == 'true':
-        list_genre = list_genre | Movie.objects.filter(genre__icontains = 'drama')
+        list_genre = list_genre | list_all.filter(genre__icontains = 'drama')
     if isAction == 'true':
-        list_genre = list_genre | Movie.objects.filter(genre__icontains = 'action')
+        list_genre = list_genre | list_all.filter(genre__icontains = 'action')
     if isRomance == 'true':
-        list_genre = list_genre | Movie.objects.filter(genre__icontains = 'Romance')
+        list_genre = list_genre | list_all.filter(genre__icontains = 'Romance')
     list_genre.distinct()
 
     list_year = list_genre.filter(year__icontains = year_1)
@@ -240,8 +241,8 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
 
 def findMoviesByLoc(request, addr):
     addr = addr.strip().replace(" ", "+")
-    req = urllib2.Request('https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&key=' + API_KEY)
-    response = urllib2.urlopen(req)
+    req = urllib.Request('https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&key=' + API_KEY)
+    response = urllib.urlopen(req)
     the_page = response.read()
 
     parsed_json = json.loads(the_page)
