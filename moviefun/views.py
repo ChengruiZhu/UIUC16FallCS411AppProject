@@ -62,7 +62,7 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
     lat_max = float(lat_1)-180.0 if float(lat_1) > float(lat_2) else float(lat_2)-180.0
     lat_min = float(lat_1)-180.0 if float(lat_1) < float(lat_2) else float(lat_2)-180.0
 
-    list = Loc.objects.all()
+    list = Loc.objects.exclude(latitude = 'N/A')
 
     l = []
     ss = []
