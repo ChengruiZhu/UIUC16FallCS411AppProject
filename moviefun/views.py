@@ -159,7 +159,7 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
         i_str = str(i)
         list_year = list_year | list_genre.filter(imdbid__year__icontains = i_str)
 
-    list_rate = list_year.filter(iimdbid__mdbrating = rate_1)
+    list_rate = list_year.filter(imdbid__mdbrating = rate_1)
 
     i_float = float(rate_1)
     while(i_float <= float(rate_2)):
