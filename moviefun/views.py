@@ -46,7 +46,7 @@ def queryfirst(qs):
     if r:
         return r[0]
     return None
-  
+
 
 def findMovie(list, long_min, long_max, la_min, la_max):
     for var in list:
@@ -143,7 +143,6 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
     log_dist = (log_max - log_min) / log_num
     lat_dist = (lat_max - lat_min) / lat_num
 
-    # l = []
     ss = []
     for i in range(log_num):
         for j in range(lat_num):
@@ -151,22 +150,44 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
             for var in list:
                 if var.longitude != "N/A" and log_min+i*log_dist < float(var.longitude) < log_min+(i+1)*log_dist and lat_min+j*lat_dist < float(
                             var.latitude) < lat_min+(j+1)*lat_dist:
-                    num += 1
-                    ss.append(MovieLocR.objects.filter(address_id = var.address)[0])
-                    if num >= m_num:
-                        break
+                    tmp1 = MovieLocR.object.filter(address_id = var.address)
+                    for subvar in tmp1:
+                        tmp2 = Movie.objects.get(imdbid = subvar.imdbid_id)
+                        if int(year_1) <= int(tmp2.year[:4]) <= int(year_2) and float(rate_1) <= float(tmp2.imdbrating) <= float(rate_2):
+                            if 'drama' in tmp2.genre.lower() and isDrama == "true":
+                                num += 1
+                                ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                                if num >= m_num:
+                                    break
+                                continue
+                            if 'action' in tmp2.genre.lower() and isAction == "true":
+                                num += 1
+                                ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                                if num >= m_num:
+                                    break
+                                continue
+                            if 'romance' in tmp2.genre.lower() and isRomance == "true":
+                                num += 1
+                                ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                                if num >= m_num:
+                                    break
+                                continue
+                            if isDrama == "false" and isAction == "false" and isRomance == "false":
+                                num += 1
+                                ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                                if num >= m_num:
+                                    break
+                                continue
+                if num >= m_num:
+                    break
+
+
     movieArr = []
     for var in ss:
         dict = {}
         obj_1 = Movie.objects.get(imdbid = var.imdbid_id)
         obj_2 = Loc.objects.get(address = var.address_id)
-        # obj_3 = RecomR.objects.filter(movie1_id_id = var.imdb_id)[:10]
-        # rec = ""
-        # for recvar in obj_3:
-        #     if rec == "":
-        #         rec += recvar.movie2_id_id
-        #     else :
-        #         rec = rec + ";" +recvar.movie2_id_id
+        obj_set = RecomR.objects.filter(movie1_id_id = var.imdb_id)[:10]
         obj = Like.objects.filter(imdbid = var.imdbid_id)
         if len(obj) == 0:
             dict['like'] = 0
@@ -193,7 +214,7 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
         dict['address'] = obj_2.address.strip()
         dict['latitude'] = obj_2.latitude
         dict['longitude'] = obj_2.longitude.strip()
-        # dict['recommendation'] = rec
+        dict['recom0'] = Movie.objects.get(imdbid = obj_set[0].movie2_id_id).title
         movieArr.append(dict)
 
     # loaded_r = json.loads(r)
@@ -223,26 +244,25 @@ def findMoviesByLoc(request, addr):
         log_max = float(lng) + radius
         lat_min = float(lat) - radius
         lat_max = float(lat) + radius
-        list = Loc.objects.all()
 
-        l = []
-        ss = []
-        for var in list:
-            if var.longitude != "N/A":
-                if float(var.longitude) > log_min and float(var.longitude) < log_max \
-                        and float(var.latitude) > lat_min and float(var.latitude) < lat_max:
-                    l.append(var)
+        list = Loc.objects.exclude(latitude='N/A')
 
         log_dist = (log_max - log_min) / log_num
         lat_dist = (lat_max - lat_min) / lat_num
+
+        # l = []
+        ss = []
         for i in range(log_num):
             for j in range(lat_num):
-                tmp = findMovie(l, log_min + i * log_dist,
-                                log_min + (i + 1) * log_dist,
-                                lat_min + j * lat_dist,
-                                lat_min + (j + 1) * lat_dist)
-                if tmp != None:
-                    ss.append(tmp)
+                num = 0
+                for var in list:
+                    if var.longitude != "N/A" and log_min + i * log_dist < float(var.longitude) < log_min + (
+                        i + 1) * log_dist and lat_min + j * lat_dist < float(
+                            var.latitude) < lat_min + (j + 1) * lat_dist:
+                        num += 1
+                        ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                        if num >= m_num:
+                            break
         movieArr = []
         for var in ss:
             dict = {}
