@@ -326,6 +326,15 @@ def findMoviesByLoc(request, addr):
             dict['swlng'] = swlng
             movieArr.append(dict)
 
+        if len(ss) == 0:
+            dict = {}
+            dict['error'] = '0'
+            dict['nelat'] = nelat
+            dict['nelng'] = nelng
+            dict['swlat'] = swlat
+            dict['swlng'] = swlng
+            movieArr.append(dict)
+
         # loaded_r = json.loads(r)
         # loaded_r['rating'] #Output 3.5
         if request.method == 'GET':
