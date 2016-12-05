@@ -142,32 +142,34 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
     lat_max = float(lat_1)-180.0 if float(lat_1) > float(lat_2) else float(lat_2)-180.0
     lat_min = float(lat_1)-180.0 if float(lat_1) < float(lat_2) else float(lat_2)-180.0
 
-    list_all = MovieLocR.objects.all().select_related('imdbid').select_related('address')
-    list_genre = MovieLocR.objects.none().select_related('imdbid').select_related('address')
+    # list_all = MovieLocR.objects.all().select_related('imdbid').select_related('address')
+    # list_genre = MovieLocR.objects.none().select_related('imdbid').select_related('address')
+    #
+    # if isDrama == 'true':
+    #     list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'drama')
+    # if isAction == 'true':
+    #     list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'action')
+    # if isRomance == 'true':
+    #     list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'Romance')
+    # list_genre.distinct()
+    #
+    # list_year = list_genre.filter(imdbid__year__icontains = year_1)
+    #
+    # for i in range(int(year_1)+1, int(year_2)+1):
+    #     i_str = str(i)
+    #     list_year = list_year | list_genre.filter(imdbid__year__icontains = i_str)
+    #
+    # list_rate = list_year.filter(imdbid__imdbrating = rate_1)
+    #
+    # i_float = float(rate_1)
+    # while(i_float <= float(rate_2)):
+    #     i_float += 0.1
+    #     i_str = str(i_float)
+    #     list_rate = list_rate | list_year.filter(imdbid__imdbrating = i_str)
+    #
+    # list = list_rate
 
-    if isDrama == 'true':
-        list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'drama')
-    if isAction == 'true':
-        list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'action')
-    if isRomance == 'true':
-        list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'Romance')
-    list_genre.distinct()
-
-    list_year = list_genre.filter(imdbid__year__icontains = year_1)
-
-    for i in range(int(year_1)+1, int(year_2)+1):
-        i_str = str(i)
-        list_year = list_year | list_genre.filter(imdbid__year__icontains = i_str)
-
-    list_rate = list_year.filter(imdbid__imdbrating = rate_1)
-
-    i_float = float(rate_1)
-    while(i_float <= float(rate_2)):
-        i_float += 0.1
-        i_str = str(i_float)
-        list_rate = list_rate | list_year.filter(imdbid__imdbrating = i_str)
-
-    list = list_rate
+    list = MovieLocR.objects.all().select_related('imdbid').select_related('address')
 
     log_dist = (log_max - log_min) / log_num
     lat_dist = (lat_max - lat_min) / lat_num
