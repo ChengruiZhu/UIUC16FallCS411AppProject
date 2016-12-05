@@ -169,7 +169,8 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
     #
     # list = list_rate
 
-    list = MovieLocR.objects.all().select_related('imdbid').select_related('address')
+    # list = MovieLocR.objects.all().select_related('imdbid').select_related('address')
+    list = Loc.objects.exclude(latitude='N/A')
 
     log_dist = (log_max - log_min) / log_num
     lat_dist = (lat_max - lat_min) / lat_num
@@ -180,8 +181,8 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
         for j in range(lat_num):
             num=0
             for var in list:
-                if var.address.longitude != "N/A" and log_min+i*log_dist < float(var.address.longitude) < log_min+(i+1)*log_dist and lat_min+j*lat_dist < float(
-                            var.address.latitude) < lat_min+(j+1)*lat_dist:
+                if var.longitude != "N/A" and log_min+i*log_dist < float(var.longitude) < log_min+(i+1)*log_dist and lat_min+j*lat_dist < float(
+                            var.latitude) < lat_min+(j+1)*lat_dist:
                     num += 1
                     ss.append(var)
                     if num >= m_num:
