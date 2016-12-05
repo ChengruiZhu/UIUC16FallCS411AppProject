@@ -153,45 +153,42 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
         list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'Romance')
     list_genre.distinct()
 
-    list_year = list_genre.filter(year__icontains = year_1)
+    list_year = list_genre.filter(imdbid__year__icontains = year_1)
 
     for i in range(int(year_1)+1, int(year_2)+1):
         i_str = str(i)
-        list_year = list_year | list_genre.filter(year__icontains = i_str)
+        list_year = list_year | list_genre.filter(imdbid__year__icontains = i_str)
 
-    list_rate = list_year.filter(imdbrating = rate_1)
+    list_rate = list_year.filter(iimdbid__mdbrating = rate_1)
 
     i_float = float(rate_1)
     while(i_float <= float(rate_2)):
         i_float += 0.1
         i_str = str(i_float)
-        list_rate = list_rate | list_year.filter(imdbrating = i_str)
+        list_rate = list_rate | list_year.filter(imdbid__imdbrating = i_str)
 
     list = list_rate
 
-    l = []
-    ss = []
-    for var in list:
-        if var.longitude != "N/A":
-            if float(var.longitude) > log_min and float(var.longitude) < log_max \
-                    and float(var.latitude) > lat_min and float(var.latitude) < lat_max:
-                l.append(var)
+    log_dist = (log_max - log_min) / log_num
+    lat_dist = (lat_max - lat_min) / lat_num
 
-    log_dist = (log_max-log_min)/log_num
-    lat_dist = (lat_max-lat_min)/lat_num
+    # l = []
+    ss = []
     for i in range(log_num):
         for j in range(lat_num):
-            tmp = findMovie(l, log_min+i*log_dist,
-                                  log_min+(i+1)*log_dist,
-                                  lat_min+j*lat_dist,
-                                  lat_min+(j+1)*lat_dist)
-            if tmp != None:
-                ss.append(tmp)
+            num=0
+            for var in list:
+                if var.address.longitude != "N/A" and log_min+i*log_dist < float(var.address.longitude) < log_min+(i+1)*log_dist and lat_min+j*lat_dist < float(
+                            var.address.latitude) < lat_min+(j+1)*lat_dist:
+                    num += 1
+                    ss.append(var)
+                    if num >= m_num:
+                        break
     movieArr = []
     for var in ss:
         dict = {}
         obj_1 = Movie.objects.get(imdbid = var.imdbid_id)
-        obj_2 = Loc.objects.get(address  = var.address_id)
+        obj_2 = Loc.objects.get(address = var.address_id)
         # obj_3 = RecomR.objects.filter(movie1_id_id = var.imdb_id)[:10]
         # rec = ""
         # for recvar in obj_3:
