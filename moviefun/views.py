@@ -214,7 +214,16 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
         dict['address'] = obj_2.address.strip()
         dict['latitude'] = obj_2.latitude
         dict['longitude'] = obj_2.longitude.strip()
-        dict['recom0'] = Movie.objects.get(imdbid = obj_set[0].movie2_id_id).title
+        dict['recom0'] = Movie.objects.get(imdbid=obj_set[0].movie2_id_id).title
+        dict['recom1'] = Movie.objects.get(imdbid=obj_set[1].movie2_id_id).title
+        dict['recom2'] = Movie.objects.get(imdbid=obj_set[2].movie2_id_id).title
+        dict['recom3'] = Movie.objects.get(imdbid=obj_set[3].movie2_id_id).title
+        dict['recom4'] = Movie.objects.get(imdbid=obj_set[4].movie2_id_id).title
+        dict['recom5'] = Movie.objects.get(imdbid=obj_set[5].movie2_id_id).title
+        dict['recom6'] = Movie.objects.get(imdbid=obj_set[6].movie2_id_id).title
+        dict['recom7'] = Movie.objects.get(imdbid=obj_set[7].movie2_id_id).title
+        dict['recom8'] = Movie.objects.get(imdbid=obj_set[8].movie2_id_id).title
+        dict['recom9'] = Movie.objects.get(imdbid=obj_set[9].movie2_id_id).title
         movieArr.append(dict)
 
     # loaded_r = json.loads(r)
