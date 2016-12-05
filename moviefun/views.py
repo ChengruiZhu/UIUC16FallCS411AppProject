@@ -263,7 +263,7 @@ def findMoviesByLoc(request, addr):
             if var.longitude != "N/A":
                 if float(var.longitude) > log_min and float(var.longitude) < log_max \
                         and float(var.latitude) > lat_min and float(var.latitude) < lat_max:
-                    l.append(var)
+                    l.append(MovieLocR.objects.get(address_id = var.address))
 
         log_dist = (log_max - log_min) / log_num
         lat_dist = (lat_max - lat_min) / lat_num
