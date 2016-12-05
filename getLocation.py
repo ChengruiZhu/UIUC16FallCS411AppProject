@@ -61,7 +61,7 @@ def main():
         imdbNum = line.split('|')[0]
         address = line.split('|')[1]
 
-        if imdbNum > '0292172' and imdbNum not in dict.keys():
+        if imdbNum > '0292246' and imdbNum not in dict.keys():
             lat, lng = geoCoding(address, key[i])
             print(imdbNum)
             dict[imdbNum] = str(lat)+','+str(lng)
