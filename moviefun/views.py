@@ -187,7 +187,7 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
         dict = {}
         obj_1 = Movie.objects.get(imdbid = var.imdbid_id)
         obj_2 = Loc.objects.get(address = var.address_id)
-        obj_set = RecomR.objects.filter(movie1_id_id = var.imdb_id)[:10]
+        obj_set = RecomR.objects.filter(movie1_id_id = var.imdbid)[:10]
         obj = Like.objects.filter(imdbid = var.imdbid_id)
         if len(obj) == 0:
             dict['like'] = 0
