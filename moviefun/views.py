@@ -57,36 +57,34 @@ def findMovie(list, long_min, long_max, la_min, la_max):
                 return queryfirst(s)
 
 def post_detail(request, lat_1, lat_2, log_1, log_2):
-    log_max = float(log_1)-180.0 if float(log_1) > float(log_2) else float(log_2)-180.0
-    log_min = float(log_1)-180.0 if float(log_1) < float(log_2) else float(log_2)-180.0
-    lat_max = float(lat_1)-180.0 if float(lat_1) > float(lat_2) else float(lat_2)-180.0
-    lat_min = float(lat_1)-180.0 if float(lat_1) < float(lat_2) else float(lat_2)-180.0
+    log_max = float(log_1) - 180.0 if float(log_1) > float(log_2) else float(log_2) - 180.0
+    log_min = float(log_1) - 180.0 if float(log_1) < float(log_2) else float(log_2) - 180.0
+    lat_max = float(lat_1) - 180.0 if float(lat_1) > float(lat_2) else float(lat_2) - 180.0
+    lat_min = float(lat_1) - 180.0 if float(lat_1) < float(lat_2) else float(lat_2) - 180.0
 
-    list = Loc.objects.exclude(latitude = 'N/A')
+    list = Loc.objects.exclude(latitude='N/A')
 
-    l = []
+    log_dist = (log_max - log_min) / log_num
+    lat_dist = (lat_max - lat_min) / lat_num
+
+    # l = []
     ss = []
-    for var in list:
-        if var.longitude != "N/A":
-            if float(var.longitude) > log_min and float(var.longitude) < log_max \
-                    and float(var.latitude) > lat_min and float(var.latitude) < lat_max:
-                l.append(var)
-
-    log_dist = (log_max-log_min)/log_num
-    lat_dist = (lat_max-lat_min)/lat_num
     for i in range(log_num):
         for j in range(lat_num):
-            tmp = findMovie(l, log_min+i*log_dist,
-                                  log_min+(i+1)*log_dist,
-                                  lat_min+j*lat_dist,
-                                  lat_min+(j+1)*lat_dist)
-            if tmp != None:
-                ss.append(tmp)
+            num = 0
+            for var in list:
+                if var.longitude != "N/A" and log_min + i * log_dist < float(var.longitude) < log_min + (
+                    i + 1) * log_dist and lat_min + j * lat_dist < float(
+                        var.latitude) < lat_min + (j + 1) * lat_dist:
+                    num += 1
+                    ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                    if num >= m_num:
+                        break
     movieArr = []
     for var in ss:
         dict = {}
-        obj_1 = Movie.objects.get(imdbid = var.imdbid_id)
-        obj_2 = Loc.objects.get(address  = var.address_id)
+        obj_1 = Movie.objects.get(imdbid=var.imdbid_id)
+        obj_2 = Loc.objects.get(address=var.address_id)
         # obj_3 = RecomR.objects.filter(movie1_id_id = var.imdb_id)[:10]
         # rec = ""
         # for recvar in obj_3:
@@ -94,11 +92,11 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         #         rec += recvar.movie2_id_id
         #     else :
         #         rec = rec + ";" +recvar.movie2_id_id
-        obj = Like.objects.filter(imdbid = var.imdbid_id)
+        obj = Like.objects.filter(imdbid=var.imdbid_id)
         if len(obj) == 0:
             dict['like'] = 0
         else:
-            obj_3 = Like.objects.get(imdbid = var.imdbid_id)
+            obj_3 = Like.objects.get(imdbid=var.imdbid_id)
             dict['like'] = obj_3.like
         dict['imdbid'] = obj_1.imdbid
         dict['title'] = obj_1.title
@@ -124,8 +122,8 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         movieArr.append(dict)
 
     # loaded_r = json.loads(r)
-    #loaded_r['rating'] #Output 3.5
-    if request.method ==  'GET':
+    # loaded_r['rating'] #Output 3.5
+    if request.method == 'GET':
         response = HttpResponse(json.dumps(movieArr))
         response["Access-Control-Allow-Origin"] = "*"
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
@@ -133,8 +131,6 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         response["Access-Control-Allow-Headers"] = "*"
         response["Content-Type"] = "application/json; charset=uft-8"
         return response
-    # elif request.method ==  'POST':
-    #     return HttpResponse("<p>" + str + "</p>")
 
 def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rate_2, isDrama, isAction, isRomance):
     log_max = float(log_1)-180.0 if float(log_1) > float(log_2) else float(log_2)-180.0
@@ -142,34 +138,6 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
     lat_max = float(lat_1)-180.0 if float(lat_1) > float(lat_2) else float(lat_2)-180.0
     lat_min = float(lat_1)-180.0 if float(lat_1) < float(lat_2) else float(lat_2)-180.0
 
-    # list_all = MovieLocR.objects.all().select_related('imdbid').select_related('address')
-    # list_genre = MovieLocR.objects.none().select_related('imdbid').select_related('address')
-    #
-    # if isDrama == 'true':
-    #     list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'drama')
-    # if isAction == 'true':
-    #     list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'action')
-    # if isRomance == 'true':
-    #     list_genre = list_genre | list_all.filter(imdbid__genre__icontains = 'Romance')
-    # list_genre.distinct()
-    #
-    # list_year = list_genre.filter(imdbid__year__icontains = year_1)
-    #
-    # for i in range(int(year_1)+1, int(year_2)+1):
-    #     i_str = str(i)
-    #     list_year = list_year | list_genre.filter(imdbid__year__icontains = i_str)
-    #
-    # list_rate = list_year.filter(imdbid__imdbrating = rate_1)
-    #
-    # i_float = float(rate_1)
-    # while(i_float <= float(rate_2)):
-    #     i_float += 0.1
-    #     i_str = str(i_float)
-    #     list_rate = list_rate | list_year.filter(imdbid__imdbrating = i_str)
-    #
-    # list = list_rate
-
-    # list = MovieLocR.objects.all().select_related('imdbid').select_related('address')
     list = Loc.objects.exclude(latitude='N/A')
 
     log_dist = (log_max - log_min) / log_num
