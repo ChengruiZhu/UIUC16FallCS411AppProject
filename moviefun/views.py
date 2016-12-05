@@ -184,7 +184,7 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
                 if var.longitude != "N/A" and log_min+i*log_dist < float(var.longitude) < log_min+(i+1)*log_dist and lat_min+j*lat_dist < float(
                             var.latitude) < lat_min+(j+1)*lat_dist:
                     num += 1
-                    ss.append(MovieLocR.objects.get(address_id = var.address))
+                    ss.append(MovieLocR.objects.filter(address_id = var.address)[0])
                     if num >= m_num:
                         break
     movieArr = []
