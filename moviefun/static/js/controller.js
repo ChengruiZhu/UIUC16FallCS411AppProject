@@ -1,4 +1,4 @@
-var app = angular.module('movieApp',[]);
+/*var app = angular.module('movieApp',[]);
 app.controller('ListCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.movies=[
         {
@@ -37,4 +37,4 @@ app.controller('ListCtrl', ['$scope', '$http', function($scope, $http) {
         }
     ];
 
-}]);
+}]);*/

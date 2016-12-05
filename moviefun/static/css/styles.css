@@ -17,15 +17,24 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     padding-top:10px;
 }
 .list{
-    width:100%;
-    background-color: white;
-    position:fixed;
-    bottom:0px;
-    height:200px;
+    width:inherit;
+    padding-top: 30px;
+    height: 480px;
+
+}
+#genre{
+    padding-left:10px;
+    padding-bottom:10px;
+}
+.list-group-item{
+    padding: 5px;
+    height:35px;
 }
 
 
-
+.w3-sidenav{
+    padding: 3px;
+}
 
 
 a.selected {

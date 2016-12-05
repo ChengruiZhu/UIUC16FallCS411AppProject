@@ -1,22 +1,27 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-     <link rel="stylesheet" href="/static/css/styles.css">
-    <!--<link rel="stylesheet" href="../moviefun/static/css/styles.css">-->
+    <!--<link rel="stylesheet" href="/static/css/styles.css"> -->
+
+    <!--<link rel="stylesheet" href="https://resources/demos/style.css">-->
+     <link rel="stylesheet" href="../moviefun/static/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="/static/js/controller.js"></script>
-     <script src="/static/js/script.js"></script>
-    <!--<script src="../moviefun/static/js/controller.js"></script>-->
-    <!--<script src="../moviefun/static/js/script.js"></script>-->
+    <!--<script src="/static/js/controller.js"></script>-->
+    <!--<script src="/static/js/script.js"></script>-->
+    <script src="../moviefun/static/js/controller.js"></script>
+    <script src="../moviefun/static/js/script.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 </head>
 <title>Movie Fun</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +30,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 
-<body>
+<body ng-app="movieApp" ng-controller="ListCtrl">
 
 <!-- Header -->
 <div class="w3-top">
@@ -37,28 +42,34 @@
     <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="close menu">
         <i class="fa fa-remove"></i>
     </a>
-    <h4>Search</h4>
+    <!--<h4>Search</h4>-->
 
     <div class="filterbox">
         <label>Location</label>
         <div class="form-group">
 
-            <input type="location" class="form-control" placeholder="Location">
+            <input id = "input" type="location" class="form-control" placeholder="Location">
+            <button style="float:right;margin-top: 5px" id = "search">Go</button>
         </div>
 
-        <div class="dropdown">
-            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Year
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu"  aria-labelledby="dLabel">
-                <form method="post"id="year">
-                        <div><input type="checkbox" name="year" value="1980"/>1980</div>
-                        <div><input type="checkbox" name="year" value="1990" />1990</div>
-                        <div><input type="checkbox" name="year" value="2000" />2000</div>
-                </form>
-            </ul>
-        </div>
+
+
+
+        <p>
+            <label for="year_range">Year:</label>
+            <input  type="text" id="year_range" readonly style="border:0; color:#f6931f; font-weight:bold;" >
+        </p>
+
+        <div id="slider-year" style = "width:80%;margin-left:7px"></div>
+
+        <p>
+            <label for="rating_range">Ratings:</label>
+            <input   type="text" id="rating_range" readonly style="border:0; color:#f6931f; font-weight:bold;">
+        </p>
+
+        <div id="slider-rating" style = "width:80%;margin-left:7px"></div>
+
+
 
 
         <div class="dropdown">
@@ -68,36 +79,40 @@
             </button>
             <ul class="dropdown-menu " aria-labelledby="dLabel">
                 <form method="post" id="genre">
-                    <div><input type="checkbox" name="genre" value="Drama" />Drama</div>
                     <div><input type="checkbox" name="genre" value="Action" />Action</div>
+                    <div><input type="checkbox" name="genre" value="Adventure" />Adventure</div>
+                    <div><input type="checkbox" name="genre" value="Crime" />Crime</div>
+                    <div><input type="checkbox" name="genre" value="Drama" />Drama</div>
+                    <div><input type="checkbox" name="genre" value="Musical" />Musical</div>
                     <div><input type="checkbox" name="genre" value="Romance" />Romance</div>
+                    <div><input type="checkbox" name="genre" value="Western" />Western</div>
                 </form>
             </ul>
         </div>
 
 
-        <div class="dropdown">
-            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Rating
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <form method="post" id="ratings">
-                    <div><input type="checkbox" name="rating" value="8.0" />8.0</div>
-                    <div><input type="checkbox" name="rating" value="7.0" />7.0</div>
-                    <div><input type="checkbox" name="rating" value="6.0" />6.0</div>
-                </form>
-            </ul>
-        </div>
+
+<!--
         <div><button id='Like'>Like this movie</button></div>
+-->
     </div>
 
-    <div class="list" ng-app="movieApp">
-        <div ng-controller='ListCtrl'>
-            <div ng-repeat="movie in movies">
-                {{movie.title}}
-            </div>
-        </div>
+    <div class="list" >
+        <label style="margin-left:7px">Recommendations</label>
+        <!--<ul ng-controller='ListCtrl' class="list-group">
+            <li ng-repeat="movie in test" class="list-group-item" style="padding:7px; width:95%">{{movie}}</li>
+        </ul>-->
+        <li id = "l0" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l1" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l2" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l3" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l4" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l5" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l6" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l7" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l8" class="list-group-item" style="padding:7px; width:95%"></li>
+        <li id = "l9" class="list-group-item" style="padding:7px; width:95%"></li>
+
     </div>
 
 </nav>
