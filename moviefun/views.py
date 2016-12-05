@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from moviefun.models import *
 import json
 
-import urllib.request
+from urllib.request import urlopen
 
 API_KEY = 'AIzaSyAiAnz_K18bDdmJoCNCVFMjV0QqxfvuVb8'
 
@@ -85,13 +85,7 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         dict = {}
         obj_1 = Movie.objects.get(imdbid=var.imdbid_id)
         obj_2 = Loc.objects.get(address=var.address_id)
-        # obj_3 = RecomR.objects.filter(movie1_id_id = var.imdb_id)[:10]
-        # rec = ""
-        # for recvar in obj_3:
-        #     if rec == "":
-        #         rec += recvar.movie2_id_id
-        #     else :
-        #         rec = rec + ";" +recvar.movie2_id_id
+        obj_set = RecomR.objects.filter(movie1_id_id=var.imdbid)[:10]
         obj = Like.objects.filter(imdbid=var.imdbid_id)
         if len(obj) == 0:
             dict['like'] = 0
@@ -118,7 +112,16 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         dict['address'] = obj_2.address.strip()
         dict['latitude'] = obj_2.latitude
         dict['longitude'] = obj_2.longitude.strip()
-        # dict['recommendation'] = rec
+        dict['recom0'] = Movie.objects.get(imdbid=obj_set[0].movie2_id_id).title
+        dict['recom1'] = Movie.objects.get(imdbid=obj_set[1].movie2_id_id).title
+        dict['recom2'] = Movie.objects.get(imdbid=obj_set[2].movie2_id_id).title
+        dict['recom3'] = Movie.objects.get(imdbid=obj_set[3].movie2_id_id).title
+        dict['recom4'] = Movie.objects.get(imdbid=obj_set[4].movie2_id_id).title
+        dict['recom5'] = Movie.objects.get(imdbid=obj_set[5].movie2_id_id).title
+        dict['recom6'] = Movie.objects.get(imdbid=obj_set[6].movie2_id_id).title
+        dict['recom7'] = Movie.objects.get(imdbid=obj_set[7].movie2_id_id).title
+        dict['recom8'] = Movie.objects.get(imdbid=obj_set[8].movie2_id_id).title
+        dict['recom9'] = Movie.objects.get(imdbid=obj_set[9].movie2_id_id).title
         movieArr.append(dict)
 
     # loaded_r = json.loads(r)
@@ -238,21 +241,23 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
         return response
 
 def findMoviesByLoc(request, addr):
-    addr = addr.strip().replace(" ", "+")
-    req = urllib.Request('https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&key=' + API_KEY)
-    response = urllib.urlopen(req)
-    the_page = response.read()
+    addr = addr.strip().replace("_", "+")
+    req = urlopen('https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&key=' + API_KEY)
+    the_page = req.read()
 
-    parsed_json = json.loads(the_page)
+    parsed_json = json.loads(the_page.decode('utf-8'))
 
     if parsed_json['status'] == 'OK':
-        lat = parsed_json['results'][0]['geometry']['location']['lat']
-        lng = parsed_json['results'][0]['geometry']['location']['lng']
+        nelat = parsed_json['results'][0]['geometry']['bounds']['northeast']['lat']
+        nelng = parsed_json['results'][0]['geometry']['bounds']['northeast']['lng']
+        swlat = parsed_json['results'][0]['geometry']['bounds']['southwest']['lat']
+        swlng = parsed_json['results'][0]['geometry']['bounds']['southwest']['lng']
 
-        log_min = float(lng) - radius
-        log_max = float(lng) + radius
-        lat_min = float(lat) - radius
-        lat_max = float(lat) + radius
+
+        log_min = float(swlng)
+        log_max = float(nelng)
+        lat_min = float(swlat)
+        lat_max = float(nelat)
 
         list = Loc.objects.exclude(latitude='N/A')
 
@@ -266,8 +271,8 @@ def findMoviesByLoc(request, addr):
                 num = 0
                 for var in list:
                     if var.longitude != "N/A" and log_min + i * log_dist < float(var.longitude) < log_min + (
-                        i + 1) * log_dist and lat_min + j * lat_dist < float(
-                            var.latitude) < lat_min + (j + 1) * lat_dist:
+                                i + 1) * log_dist and lat_min + j * lat_dist < float(
+                        var.latitude) < lat_min + (j + 1) * lat_dist:
                         num += 1
                         ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
                         if num >= m_num:
@@ -277,13 +282,7 @@ def findMoviesByLoc(request, addr):
             dict = {}
             obj_1 = Movie.objects.get(imdbid=var.imdbid_id)
             obj_2 = Loc.objects.get(address=var.address_id)
-            # obj_3 = RecomR.objects.filter(movie1_id_id = var.imdb_id)[:10]
-            # rec = ""
-            # for recvar in obj_3:
-            #     if rec == "":
-            #         rec += recvar.movie2_id_id
-            #     else :
-            #         rec = rec + ";" +recvar.movie2_id_id
+            obj_set = RecomR.objects.filter(movie1_id_id=var.imdbid)[:10]
             obj = Like.objects.filter(imdbid=var.imdbid_id)
             if len(obj) == 0:
                 dict['like'] = 0
@@ -310,7 +309,21 @@ def findMoviesByLoc(request, addr):
             dict['address'] = obj_2.address.strip()
             dict['latitude'] = obj_2.latitude
             dict['longitude'] = obj_2.longitude.strip()
-            # dict['recommendation'] = rec
+            dict['recom0'] = Movie.objects.get(imdbid=obj_set[0].movie2_id_id).title
+            dict['recom1'] = Movie.objects.get(imdbid=obj_set[1].movie2_id_id).title
+            dict['recom2'] = Movie.objects.get(imdbid=obj_set[2].movie2_id_id).title
+            dict['recom3'] = Movie.objects.get(imdbid=obj_set[3].movie2_id_id).title
+            dict['recom4'] = Movie.objects.get(imdbid=obj_set[4].movie2_id_id).title
+            dict['recom5'] = Movie.objects.get(imdbid=obj_set[5].movie2_id_id).title
+            dict['recom6'] = Movie.objects.get(imdbid=obj_set[6].movie2_id_id).title
+            dict['recom7'] = Movie.objects.get(imdbid=obj_set[7].movie2_id_id).title
+            dict['recom8'] = Movie.objects.get(imdbid=obj_set[8].movie2_id_id).title
+            dict['recom9'] = Movie.objects.get(imdbid=obj_set[9].movie2_id_id).title
+            dict['error'] = '0'
+            dict['nelat'] = nelat
+            dict['nelng'] = nelng
+            dict['swlat'] = swlat
+            dict['swlng'] = swlng
             movieArr.append(dict)
 
         # loaded_r = json.loads(r)
@@ -325,8 +338,12 @@ def findMoviesByLoc(request, addr):
             return response
 
     else:
+        movieArr = []
+        dict = {}
+        dict['error'] = '1'
+        movieArr.append(dict)
         if request.method == 'GET':
-            response = HttpResponse("No this place!")
+            response = HttpResponse(json.dumps(movieArr))
             response["Access-Control-Allow-Origin"] = "*"
             response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
             response["Access-Control-Max-Age"] = "1000"
