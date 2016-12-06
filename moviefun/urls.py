@@ -17,8 +17,8 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^get/(?P<lat_1>\d+\.\d+)/(?P<lat_2>\d+\.\d+)/(?P<log_1>\d+\.\d+)/(?P<log_2>\d+\.\d+)/$',views.post_detail, name='post_detail'),
     url(r'^filter/(?P<lat_1>\d+\.\d+)/(?P<lat_2>\d+\.\d+)/(?P<log_1>\d+\.\d+)/(?P<log_2>\d+\.\d+)/(?P<year_1>\d+)/(?P<year_2>\d+)/'
-        r'(?P<rate_1>\d+\.\d+)/(?P<rate_2>\d+\.\d+)/(?P<isDrama>[a-z]+)/(?P<isAction>[a-z]+)/'
-        r'(?P<isRomance>[a-z]+)/$', views.post_filter, name='post_filter'),
+        r'(?P<rate_1>\d+\.\d+)/(?P<rate_2>\d+\.\d+)/(?P<isAction>[a-z]+)/(?P<isAdventure>[a-z]+)/(?P<isCrime>[a-z]+)/(?P<isDrama>[a-z]+)/'
+        r'(?P<isMusical>[a-z]+)/(?P<isRomance>[a-z]+)/(?P<isWestern>[a-z]+)/$', views.post_filter, name='post_filter'),
     url(r'^like/(?P<imdbid>[a-z0-9]{9})/$', views.love, name='love'),
     url(r'^location/(?P<addr>.+)/$', views.findMoviesByLoc, name='findMoviesByLoc'),
    # url(r'^post/(?P<id>\d+)/$',

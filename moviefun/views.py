@@ -135,7 +135,7 @@ def post_detail(request, lat_1, lat_2, log_1, log_2):
         response["Content-Type"] = "application/json; charset=uft-8"
         return response
 
-def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rate_2, isDrama, isAction, isRomance):
+def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rate_2, isAction, isAdventure, isCrime, isDrama, isMusical, isRomance, isWestern):
     log_max = float(log_1)-180.0 if float(log_1) > float(log_2) else float(log_2)-180.0
     log_min = float(log_1)-180.0 if float(log_1) < float(log_2) else float(log_2)-180.0
     lat_max = float(lat_1)-180.0 if float(lat_1) > float(lat_2) else float(lat_2)-180.0
@@ -157,13 +157,31 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
                     for subvar in tmp1:
                         tmp2 = Movie.objects.get(imdbid = subvar.imdbid_id)
                         if int(year_1) <= int(tmp2.year[:4]) <= int(year_2) and float(rate_1) <= float(tmp2.imdbrating) <= float(rate_2):
+                            if 'action' in tmp2.genre.lower() and isAction == "true":
+                                num += 1
+                                ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                                if num >= m_num:
+                                    break
+                                continue
+                            if 'adventure' in tmp2.genre.lower() and isAdventure == "true":
+                                num += 1
+                                ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                                if num >= m_num:
+                                    break
+                                continue
+                            if 'crime' in tmp2.genre.lower() and isCrime == "true":
+                                num += 1
+                                ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                                if num >= m_num:
+                                    break
+                                continue
                             if 'drama' in tmp2.genre.lower() and isDrama == "true":
                                 num += 1
                                 ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
                                 if num >= m_num:
                                     break
                                 continue
-                            if 'action' in tmp2.genre.lower() and isAction == "true":
+                            if 'musical' in tmp2.genre.lower() and isMusical == "true":
                                 num += 1
                                 ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
                                 if num >= m_num:
@@ -175,7 +193,14 @@ def post_filter(request, lat_1, lat_2, log_1, log_2, year_1, year_2, rate_1, rat
                                 if num >= m_num:
                                     break
                                 continue
-                            if isDrama == "false" and isAction == "false" and isRomance == "false":
+                            if 'western' in tmp2.genre.lower() and isWestern == "true":
+                                num += 1
+                                ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
+                                if num >= m_num:
+                                    break
+                                continue
+                            if isDrama == "false" and isAction == "false" and isRomance == "false" \
+                                    and isAdventure == "false" and isCrime == "false" and isMusical == "false" and isWestern == "false":
                                 num += 1
                                 ss.append(MovieLocR.objects.filter(address_id=var.address)[0])
                                 if num >= m_num:
