@@ -51,6 +51,7 @@ function initMap() {
             v = document.getElementsByClassName("markerbtn");
 
             document.getElementById("l0").innerHTML = movie.recom0;
+            //document.getElementById("l0").onclick = move()
             document.getElementById("l1").innerHTML = movie.recom1;
             document.getElementById("l2").innerHTML = movie.recom2;
             document.getElementById("l3").innerHTML = movie.recom3;
@@ -154,6 +155,25 @@ z
             //TODO: check if trigger "idle"
         });
     });
+    $('#test').on('click',function () {
+        console.log("test");
+    });
+    $('#genre').on('click','input', function () {
+        var filter = document.getElementById("genre");
+        //count if all false
+        var ct=0;
+        for(var i = 0; i < filter.children.length; i++){
+            var curr = filter.children[i].children[0];
+            if(!curr.checked) ct++;
+            genre[curr.value] = curr.checked?true:false;
+        }
+        if(ct==7){
+            genre={'Action': true,'Adventure': true,'Crime': true,'Drama': true,'Musical': true,'Romance': true,'Western':true};
+        }
+        getData(function(){
+            refresh();
+        });
+    });
 }
 
 var main=function() {
@@ -229,19 +249,6 @@ var main=function() {
         }
         var param = {'year':year, 'genre': genre,'rating': ratings};
     });
-    $('#genre').on('click','input', function () {
-        var filter = document.getElementById("genre");
-        //count if all false
-        var ct=0;
-        for(var i = 0; i < filter.children.length; i++){
-            var curr = filter.children[i].children[0];
-            if(!curr.checked) ct++;
-            genre[curr.value] = curr.checked?true:false;
-        }
-        if(ct==3){
-            genre={'Action': true,'Drama': true,'Romance':true};
-        }
-    });
     $('#ratings').on('click','input', function () {
         var filter = document.getElementById("ratings");
         var ct=0;
@@ -250,9 +257,10 @@ var main=function() {
             if(!curr.checked) ct++;
             ratings[curr.value] = curr.checked?true:false;
         }
-        if(ct==3){
+        if(ct==7){
             ratings={'6.0': true,'7.0': true,'8.0':true};
         }
+        console.log(ct);
     });
     $(".markerbtn").live('click', function(){
         console.log("enen");
@@ -290,11 +298,13 @@ function getData(callback){
         rate0+=".0";
     if(rate1.indexOf(".")==-1)
         rate1+=".0";
-    console.log(genre['Action']+"/"+genre['Drama']+"/"+genre['Romance']);
+    console.log(genre);
+    //return;
     $.get("http://fa16-cs411-04.cs.illinois.edu:8000/moviefun/filter/"+
            (north+180.0).toString()+"/"+(south+180.0).toString()+"/"+
         (west+180.0).toString()+"/"+(east+180.0).toString()+"/"+
-        year[0]+"/"+year[1]+"/"+rate0+"/"+rate1+"/"+genre['Action']+"/"+genre['Drama']+"/"+genre['Romance']+"/", function(data, status){
+        year[0]+"/"+year[1]+"/"+rate0+"/"+rate1+"/"+genre['Action']+"/"+genre['Adventure']+"/"+genre['Crime']+"/"
+        +genre['Drama']+"/"+genre['Musical']+"/"+genre['Romance']+"/"+genre['Western']+"/", function(data, status){
         list = data;
     });
 
