@@ -1,5 +1,5 @@
 // Get the Sidenav
-var list;
+var list=[];
 var year=[1900,2016];
 var genre={'Action': true,'Adventure': true,'Crime': true,'Drama': true,'Musical': true,'Romance': true,'Western':true};
 var ratings=[0.0,10.0];
@@ -11,7 +11,6 @@ var south;
 var west;
 var east;
 var id;
-var gmovie;
 
 var year={};
 function initMap() {
@@ -40,8 +39,11 @@ function initMap() {
 
         marker.addListener('click', function() {
             var str="<div style='padding:10px;'><p style='font-weight: 400;font-size:30px' >"+movie['title']+"("+movie.year+")"+"<a onclick = like() style='color:red' >   <i class='fa fa-heart' aria-hidden='true'></i></a></p>"
-                    +"<img class='col-sm-6' src='"+movie.poster+"' alt='Mountain View' style='width:auto;height:160px;margin-bottom: 20px'>"
-                    +"<div style='font-weight: 400'>Rating: <span style='font-weight: 200'>"+movie.idbrating+"</span></div>"
+                    +"<img class='col-sm-6' src='"+movie.poster+"' alt='https://pbs.twimg.com/profile_images/600060188872155136/st4Sp6Aw.jpg' style='width:auto;height:160px;margin-bottom: 20px'>"
+
+                    +"<div style='font-weight: 400'>Rating: <span style='font-weight: 200'>"+movie.imdbrating+"</span></div>"
+                    +"<div style='font-weight: 400'>Director: <span style='font-weight: 200'>"+movie.director+"</span>"
+                    +"<div style='font-weight: 400'>Actors: <span style='font-weight: 200'>"+movie.actors+"</span>"
 
                     +"<div style='font-weight: 400'>Genre: <span style='font-weight: 200'>"+movie.genre+"</span></div>"
 
@@ -92,7 +94,8 @@ function initMap() {
     function refresh(){
         deleteMarkers();
         for (var i = 0; i < list.length; i++) {
-            addMarker(list[i]);
+            if(list[i].imdbrating > ratings[0]&&list[i].imdbrating<ratings[1])
+                addMarker(list[i]);
         }
         showMarkers();
     }
@@ -187,7 +190,7 @@ var main=function() {
             min: 1900,
             max: 2016,
             values: [ 1900, 2016 ],
-            slide: function( event, ui ) {
+            stop: function( event, ui ) {
                 $( "#year_range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
                 year[0] = ui.values[ 0 ];
                 year[1] = ui.values[ 1 ];
@@ -205,7 +208,7 @@ var main=function() {
         max: 10.0,
         step: 0.1,
         values: [ 0.0, 10.0 ],
-        slide: function( event, ui ) {
+        stop: function( event, ui ) {
             $( "#rating_range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
             ratings[0] = ui.values[ 0 ];
             ratings[1] = ui.values[ 1 ];
@@ -249,22 +252,6 @@ var main=function() {
         }
         var param = {'year':year, 'genre': genre,'rating': ratings};
     });
-    $('#ratings').on('click','input', function () {
-        var filter = document.getElementById("ratings");
-        var ct=0;
-        for(var i = 0; i < filter.children.length; i++){
-            var curr = filter.children[i].children[0];
-            if(!curr.checked) ct++;
-            ratings[curr.value] = curr.checked?true:false;
-        }
-        if(ct==7){
-            ratings={'6.0': true,'7.0': true,'8.0':true};
-        }
-        console.log(ct);
-    });
-    $(".markerbtn").live('click', function(){
-        console.log("enen");
-    });
 
 
 
@@ -298,7 +285,7 @@ function getData(callback){
         rate0+=".0";
     if(rate1.indexOf(".")==-1)
         rate1+=".0";
-    console.log(genre);
+    console.log(ratings);
     //return;
     $.get("http://fa16-cs411-04.cs.illinois.edu:8000/moviefun/filter/"+
            (north+180.0).toString()+"/"+(south+180.0).toString()+"/"+
@@ -320,23 +307,8 @@ $(document).ready(main);
 
 var app = angular.module('movieApp',[]);
 app.controller('ListCtrl', ['$scope', '$http',"$window", function($scope, $http,$window) {
-    $scope.test = $window.recList;
-    $scope.$watch(
-        function() { return $window.recList },
-        function(n,o) {
-            console.log("changed ",n);
-        }
-    );
-    $scope.$on("$routeChangeSuccess", function () {console.log("sucee")});
-    $(".markerbtn").live('click', function(){
-        console.log("enen");
-    });
-    $scope.check = function(){
-        console.log("check");
-    }
-    var check = function() {
-        console.log("out");
-    }
+
+
 
 
 
