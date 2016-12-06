@@ -41,7 +41,7 @@ function initMap() {
             var str="<div style='padding:10px;'><p style='font-weight: 400;font-size:30px' >"+movie['title']+"("+movie.year+")"+"<a onclick = like() style='color:red' >   <i class='fa fa-heart' aria-hidden='true'></i></a></p>"
                     +"<img class='col-sm-6' src='"+movie.poster+"' alt='https://pbs.twimg.com/profile_images/600060188872155136/st4Sp6Aw.jpg' style='width:auto;height:160px;margin-bottom: 20px'>"
 
-                    +"<div style='font-weight: 400'>Rating: <span style='font-weight: 200'>"+movie.imdbrating+"</span></div>"
+                    +"<div style='font-weight: 400'>Rating: <span style='font-weight: 200'>"+movie.idbrating+"</span></div>"
                     +"<div style='font-weight: 400'>Director: <span style='font-weight: 200'>"+movie.director+"</span>"
                     +"<div style='font-weight: 400'>Actors: <span style='font-weight: 200'>"+movie.actors+"</span>"
 
@@ -94,7 +94,8 @@ function initMap() {
     function refresh(){
         deleteMarkers();
         for (var i = 0; i < list.length; i++) {
-            if(list[i].imdbrating > ratings[0]&&list[i].imdbrating<ratings[1])
+            console.log(list[i]);
+            if(list[i].idbrating > ratings[0]&&list[i].idbrating<ratings[1])
                 addMarker(list[i]);
         }
         showMarkers();
